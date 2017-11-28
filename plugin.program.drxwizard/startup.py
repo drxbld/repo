@@ -423,7 +423,4 @@ if AUTOCLEANUP == 'true':
 else: wiz.log('[Auto Clean Up] Turned off', xbmc.LOGNOTICE)
 
 wiz.setS('kodi17iscrap', '')
-wiz.writesources()
-xbmc.executebuiltin('UpdateLocalAddons')
-xbmc.executebuiltin('UpdateAddonRepos')
-wiz.LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]Forcing Addon Updates[/COLOR]' % COLOR2)
+wiz.forceUpdate()

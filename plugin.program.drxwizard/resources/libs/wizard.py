@@ -2134,7 +2134,7 @@ def checkSources():
 				alive = len(match) - len(bad)
 				kept = len(bad) - len(remove)
 				removed = len(remove)
-				DIALOG.ok(ADDONTITLE, "[COLOR %s]Checking sources for broken paths has been completed" % COLOR2, "Working: [COLOR %s]%s[/COLOR] | Kept: [COLOR %s]%s[/COLOR] | Removed: [COLOR %s]%s[/COLOR][/COLOR]" % (COLOR2, COLOR1, alive, COLOR1, kept, COLOR1, removed))
+				DIALOG.ok(ADDONTITLE, "[COLOR %s]Checking sources for broken paths has been completed", "Working: [COLOR %s]%s[/COLOR] | Kept: [COLOR %s]%s[/COLOR] | Removed: [COLOR %s]%s[/COLOR][/COLOR]" % (COLOR2, COLOR1, alive, COLOR1, kept, COLOR1, removed))
 			else: log("No Bad Sources to be removed.", xbmc.LOGNOTICE)
 		else: LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), "[COLOR %s]All Sources Are Working[/COLOR]" % COLOR2)
 	else: log("No Sources Found", xbmc.LOGNOTICE)
@@ -2543,22 +2543,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
 		raise Error, errors
 		
 #Durex Additions
-def writesources():
-	KEEPSOURCES      = getS('keepsources')
-	if KEEPSOURCES == 'false':
-		if os.path.isfile(SOURCES):
-			with open(SOURCES, 'r') as inF:
-				for line in inF:
-					if '<path pathversion="1">http://muckys.mediaportal4kodi.ml/</path>' in line:
-						return
-					else:
-						if xbmc.getCondVisibility('system.platform.osx'):
-							link=OPEN_URL('http://drxbld.com/tools/sources.xml')
-							f = open(SOURCES, mode='w')
-							f.write(link)
-							f.close()
-	else:
-		return
+
 		
 def DESTROY_PATH(path):
     #dp.create("Durex Wizard","Wiping...",'', 'Please Wait')
