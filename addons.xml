@@ -1,7 +1,7 @@
 <addons>
     
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.program.drxwizard" name="Durex Wizard" version="4.1" provider-name="Durex">
+<addon id="plugin.program.drxwizard" name="Durex Wizard" version="4.2" provider-name="Durex">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -17,17 +17,17 @@
 </addon>
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.drxrepopub" name="Durex Repo Public" version="1.0" provider-name="Durex Repo Public">
-    <extension point="xbmc.addon.repository" name="Durex Repo Public">
-        <info compressed="false">http://drxbld.com/pluginspub/addons.xml</info>
-        <checksum>http://drxbld.com/pluginspub/addons.xml.md5</checksum>
-        <datadir zip="true">http://drxbld.com/pluginspub/</datadir>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <summary>Durex Repository Public</summary>
-        <description>Kodi Repository to Durex Build Installer</description>
-        <platform>all</platform>
-    </extension>
+<addon id="repository.drxrepopub" name="[COLOR gold]Durex Build Repo[/COLOR]" version="2.0" provider-name="Durex">
+	<extension point="xbmc.addon.repository" name="Durex Build Repo">
+		<info compressed="false">https://raw.githubusercontent.com/drxbld/repo/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/drxbld/repo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/drxbld/repo/master/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Durex Add-on Repository</summary>
+		<description>Kodi Repository for Durex Build</description>
+		<platform>all</platform>
+	</extension>
 </addon>
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -130,81 +130,6 @@ provider-name="Team IVUE">
   <description lang="en">Now includes a fully functioning back up and restore feature</description>
   <disclaimer lang="en">Modified by TeamJDM from the original code from "Primeaval" </disclaimer>
 </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.elysium" version="2017.11.13" name="Elysium" provider-name="Elysium">
-    <requires>
-        <import addon="xbmc.python" version="2.19.0"/>
-        <import addon="script.elysium.artwork" version="2017.06.27"/>
-        <import addon="script.module.urlresolver" version="2.10.0"/>
-        <import addon="script.module.metahandler" version="2.9.0"/>
-        <import addon="script.module.requests" version="2.12.4"/>
-        <import addon="script.module.beautifulsoup" version="3.2.1"/>
-        <import addon="script.module.schism.common" version="2017.06.08"/>
-        <import addon="script.module.futures" version="2.2.0"/>
-        <import addon="script.module.nanscrapers" version="0.5.35"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="elysium.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <summary lang="en">Elysium movies and TV shows</summary>
-        <description lang="en">Watch movies and TV shows in high quality! Please note that this addon is not an official part of the Kodi media player and is therefore not to be mentioned within Kodi's official support channels. This addon has nothing to do with the media player itself, nor its intended use, it is simply a third party plugin which has been added to your system.</description>
-        <disclaimer lang="en">The author does not host any content, nor is he affiliated with any of the content providers.</disclaimer>
-        <platform>all</platform>
-        <news>Added Hebrew language strings (thanks Dambledore) / Added a bunch of lists (thanks Soulless and Griffin) / Fixed tools opening up wrong settings section / New api-key. Please get your own asap as it will become mandatory in next update / Switched to NanScrapers (thanks Midraal)</news>
-        <assets>
-            <icon>icon.png</icon>
-            <fanart>fanart.jpg</fanart>
-        </assets>
-    </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.supremacy" name="supremacy" version="1.2" provider-name="supremacy">
-  <extension point="xbmc.addon.repository" name="supremacy">
-    <info compressed="false">http://supremacy.org.uk/zip/plugin/addon.xml</info>
-    <checksum>http://supremacy.org.uk/zip/plugin/addons.xml.md5</checksum>
-    <datadir zip="true">http://supremacy.org.uk/zip/plugin/</datadir>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary>video addon for supremacy</summary>
-    <description>Latest Addon Updates For Supremacy Repository</description>
-    <platform>all</platform>
-  </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.thepyramid"
-       name="The Pyramid"
-       version="1.61"
-       provider-name="TomBraiderMovies">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-  <import addon="script.module.t0mm0.common" version="2.0.0"/>
-    <import addon="script.module.beautifulsoup" version="3.2.1"/>
-    <import addon="script.module.simple.downloader" version="0.9.4"/>
-    <import addon="script.module.beautifulsoup4" />
-    <import addon="script.module.simple.downloader" version="0.9.4"/>
-    <import addon="script.module.requests" />
-    <import addon="script.module.httplib2" />
-    <import addon="script.module.youtube.dl" optional="true"/>
-    <import addon="plugin.video.youtube" version="3.0.0"/>
-    <import addon="script.module.urlresolver" />
-    <import addon="script.module.simplejson" /> 
-    <import addon="script.common.plugin.cache" version="2.5.2"/>
-    <import addon="script.module.metahandler" version="2.5.1"/>
-
-  </requires>
-  <extension point="xbmc.python.pluginsource" library="default.py">
-    <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">[COLORblue]Pyramid All In One Add On[/COLOR]</summary>
-    <description lang="en">[COLORblue]This Is A 3rd Party Add On And Is Not Linked To Kodi In Any Way. For Support Tweet @PyramidAddOn. All The Content We Provide Is Freely Available On The Internet. We Do Not Store Any Content Ourselves.[/COLOR]</description>
-    <platform>all</platform>
-  </extension>
 </addon>
 
 </addons>

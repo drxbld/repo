@@ -12,12 +12,12 @@ BUILDFILE      = 'http://drxbld.com/tools/wizard.xml'
 # 0 being every startup of kodi
 UPDATECHECK    = 0
 # Text File with apk info in it.
-APKFILE        = 'http://durextv.xyz/tools/apk.txt'
+APKFILE        = 'http://drxbld.com/tools/apk.txt'
 # Text File with Youtube Videos urls.  Leave as 'http://' to ignore
 YOUTUBETITLE   = ''
 YOUTUBEFILE    = ''
 # Text File for addon installer.  Leave as 'http://' to ignore
-ADDONFILE      = 'http://durextv.xyz/tools/addons.txt'
+ADDONFILE      = 'http://drxbld.com/tools/addons.txt'
 # Text File for advanced settings.  Leave as 'http://' to ignore
 ADVANCEDFILE   = 'http://'
 
@@ -81,7 +81,7 @@ CONTACTFANART  = os.path.join(ART, 'ContentPanel.png')
 ### AUTO UPDATE #########################################
 ########## FOR THOSE WITH NO REPO #######################
 # Enable Auto Update 'Yes' or 'No'
-AUTOUPDATE     = 'Yes'
+AUTOUPDATE     = 'No'
 # Url to wizard version
 WIZARDFILE     = 'http://drxbld.com/tools/wizard.xml'
 #########################################################
@@ -94,9 +94,9 @@ AUTOINSTALL    = 'Yes'
 # Addon ID for the repository
 REPOID         = 'repository.drxrepopub'
 # Url to Addons.xml file in your repo folder(this is so we can get the latest version)
-REPOADDONXML   = 'http://durextv.xyz/pluginspub/addons.xml'
+REPOADDONXML   = 'https://raw.githubusercontent.com/drxbld/repo/master/addons.xml'
 # Url to folder zip is located in
-REPOZIPURL     = 'http://durextv.xyz/pluginspub/repository.drxrepopub/'
+REPOZIPURL     = 'https://raw.githubusercontent.com/drxbld/repo/master/repository.drxrepopub/'
 #########################################################
 
 #########################################################
@@ -105,12 +105,12 @@ REPOZIPURL     = 'http://durextv.xyz/pluginspub/repository.drxrepopub/'
 # Enable Notification screen Yes or No
 ENABLE         = 'Yes'
 # Url to notification file
-NOTIFICATION   = 'http://durextv.xyz/tools/news.txt'
+NOTIFICATION   = 'http://drxbld.com/tools/news.txt'
 # Use either 'Text' or 'Image'
 HEADERTYPE     = 'Text'
 HEADERMESSAGE  = 'Durex Wizard'
 # url to image if using Image 424x180
 HEADERIMAGE    = ''
 # Background for Notification Window
-BACKGROUND     = 'http://durextv.xyz/background.jpg'
+BACKGROUND     = os.path.join(ART, 'fanart.jpg')
 #########################################################
