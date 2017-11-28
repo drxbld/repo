@@ -2546,16 +2546,17 @@ def copytree(src, dst, symlinks=False, ignore=None):
 def writesources():
 	KEEPSOURCES      = getS('keepsources')
 	if KEEPSOURCES == 'false':
-		with open(SOURCES, 'r') as inF:
-			for line in inF:
-				if '<path pathversion="1">http://muckys.mediaportal4kodi.ml/</path>' in line:
-					return
-				else:
-					if xbmc.getCondVisibility('system.platform.osx'):
-						link=OPEN_URL('http://drxbld.com/tools/sources.xml')
-						f = open(SOURCES, mode='w')
-						f.write(link)
-						f.close()
+		if os.path.isfile(SOURCES):
+			with open(SOURCES, 'r') as inF:
+				for line in inF:
+					if '<path pathversion="1">http://muckys.mediaportal4kodi.ml/</path>' in line:
+						return
+					else:
+						if xbmc.getCondVisibility('system.platform.osx'):
+							link=OPEN_URL('http://drxbld.com/tools/sources.xml')
+							f = open(SOURCES, mode='w')
+							f.write(link)
+							f.close()
 	else:
 		return
 		
