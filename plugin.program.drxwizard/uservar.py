@@ -7,17 +7,17 @@ ADDON_ID       = xbmcaddon.Addon().getAddonInfo('id')
 ADDONTITLE     = '[COLOR gold]Durex Wizard[/COLOR]'
 EXCLUDES       = [ADDON_ID]
 # Text File with build info in it.
-BUILDFILE      = 'http://drxbld.com/tools/wizard.xml'
+BUILDFILE      = 'http://durextv.xyz/tools/wizard.xml'
 # How often you would list it to check for build updates in days
 # 0 being every startup of kodi
 UPDATECHECK    = 0
 # Text File with apk info in it.
-APKFILE        = 'http://drxbld.com/tools/apk.txt'
+APKFILE        = 'http://durextv.xyz/tools/apk.txt'
 # Text File with Youtube Videos urls.  Leave as 'http://' to ignore
 YOUTUBETITLE   = ''
 YOUTUBEFILE    = ''
 # Text File for addon installer.  Leave as 'http://' to ignore
-ADDONFILE      = 'http://drxbld.com/tools/addons.txt'
+ADDONFILE      = 'http://durextv.xyz/tools/addons.txt'
 # Text File for advanced settings.  Leave as 'http://' to ignore
 ADVANCEDFILE   = 'http://'
 
@@ -83,7 +83,7 @@ CONTACTFANART  = os.path.join(ART, 'ContentPanel.png')
 # Enable Auto Update 'Yes' or 'No'
 AUTOUPDATE     = 'No'
 # Url to wizard version
-WIZARDFILE     = 'http://drxbld.com/tools/wizard.xml'
+WIZARDFILE     = 'http://durextv.xyz/tools/wizard.xml'
 #########################################################
 
 #########################################################
@@ -105,7 +105,7 @@ REPOZIPURL     = 'https://raw.githubusercontent.com/drxbld/repo/master/repositor
 # Enable Notification screen Yes or No
 ENABLE         = 'Yes'
 # Url to notification file
-NOTIFICATION   = 'http://drxbld.com/tools/news.txt'
+NOTIFICATION   = 'http://durextv.xyz/tools/news.txt'
 # Use either 'Text' or 'Image'
 HEADERTYPE     = 'Text'
 HEADERMESSAGE  = 'Durex Wizard'
