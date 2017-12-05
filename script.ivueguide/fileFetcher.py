@@ -25,7 +25,7 @@ import os
 import urllib, urllib2
 import datetime
 import zlib, utils, base64, time, zipfile, shutil
-
+import base64
 addon_id = 'script.ivueguide'
 databasePath = xbmc.translatePath('special://profile/addon_data/script.ivueguide')
 
@@ -92,8 +92,8 @@ class FileFetcher(object):
     addon = None
     def __init__(self, fileName, addon):
 
-        MAIN_URL = utils.get_setting(addon_id,'mainurl')
-        USER_URL = utils.get_setting(addon_id,'userurl')
+        folderPath = utils.folder()
+
 	self.addon = addon
 	self.filePath = os.path.join(self.basePath, fileName)
 
@@ -101,12 +101,19 @@ class FileFetcher(object):
 		self.fileUrl = fileName
 		self.fileName = fileName.split('/')[-1]
 		self.filePath = os.path.join(self.basePath, 'custom.xml')
+		
 	elif fileName == utils.get_setting(addon_id,'xmltv.url') and fileName.endswith(".zip"):		
 		self.fileUrl = fileName
 		self.fileName = fileName.split('/')[-1]
 		self.filePath = os.path.join(self.basePath, 'custom.xml')
+		
+	elif fileName == utils.get_setting(addon_id,'sub.xmltv.url'):		
+		self.fileUrl = fileName
+		self.fileName = fileName.split('/')[-1]
+		self.filePath = os.path.join(self.basePath, utils.get_setting(addon_id,'sub.xmltv')+'.xml')
+		
 	else:
-		self.fileUrl = MAIN_URL + fileName.replace('.xml', '.zip')
+		self.fileUrl = folderPath + fileName.replace('.xml', '.zip')
         # make sure the folder is actually there already!
         if not os.path.exists(self.basePath):
             os.makedirs(self.basePath)

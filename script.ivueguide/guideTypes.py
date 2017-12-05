@@ -33,7 +33,6 @@ from operator import itemgetter
 
 ADDON = xbmcaddon.Addon(id='script.ivueguide')
 
-
 class GuideTypes(object):
     GUIDE_ID = 0
     GUIDE_SORT = 1
@@ -42,6 +41,7 @@ class GuideTypes(object):
     GUIDE_DEFAULT = 4
 
     CUSTOM_FILE_ID = 6
+    SUB_FILE_ID = 15
 
     guideTypes = []
     guideParser = ConfigParser.ConfigParser()
@@ -153,3 +153,14 @@ if __name__ == '__main__':
         else:  # standard settings handling...
             ADDON.setSetting('xmltv.type', typeId)
             ADDON.setSetting('xmltv.type_select', typeName)
+
+            if not ADDON.getSetting('categories.path') == 'iVue':
+                yes_pressed = d.yesno('[COLOR ffff7e14][B]IVUE SETUP[/B][/COLOR]', 'Do you wish to use iVue categories',nolabel='no',yeslabel='yes')
+                if yes_pressed:
+                    ADDON.setSetting('categories.path', 'iVue')
+        
+            if not int(ADDON.getSetting('logos.source')) == 0:
+                yes_pressed = d.yesno('[COLOR ffff7e14][B]IVUE SETUP[/B][/COLOR]', 'Do you wish to use iVue logo pack',nolabel='no',yeslabel='yes')
+                if yes_pressed:
+                    ADDON.setSetting('logos.source', '0')
+            d.ok('iVue', 'Please press ok in settings dialog to confirm changes, then reload guide for changes to take affect', '')

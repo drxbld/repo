@@ -33,10 +33,11 @@ import xbmcaddon, urllib
 
 
 addon    = 'script.ivueguide'
+addon2    = 'plugin.video.intervue'
 ADDONID  = addon
 PVRID  = 'pvr.iptvsimple'
 datapath = xbmc.translatePath(os.path.join('special://profile', 'addon_data', addon))
-inipath  = xbmc.translatePath(os.path.join('special://profile', 'addon_data', addon, 'resources', 'ini'))
+inipath  = xbmc.translatePath(os.path.join('special://profile', 'addon_data', addon2, 'resources', 'ini'))
 
 def read(filename):
     f = file(filename, 'r')
@@ -91,17 +92,10 @@ class StreamsService(object):
     def getIniFiles(self):
         files = []
         import glob
-        #ini   = os.path.join(datapath, 'addons*.ini')# import all from within the settings folder
-        #ini   = os.path.join(datapath, 'ini', '*.*')# import all ini from ini dir perhaps for testing
         ini   = os.path.join(inipath, '*.*')# import all from resources ini
         
         files = glob.glob(ini)
-        
-        for i in range(10):
-            file = GetSetting('INI_%d' % i)
-            if len(file) > 0:
-                if file not in files:
-                    files.append(file)
+
         # Append inis  
         files.append(os.path.join(datapath,'addons.ini'))
         files.append(os.path.join(datapath,'addons2.ini'))

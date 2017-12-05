@@ -41,6 +41,7 @@ import requests
 import reset
 from bs4 import BeautifulSoup
 import urllib2
+import config
 from xml.etree import ElementTree
 
 
@@ -282,7 +283,7 @@ class TVGuide(xbmcgui.WindowXML):
         self.category = ADDON.getSetting('category')
         self.lastchan_file = xbmc.translatePath(os.path.join(ADDON.getAddonInfo('profile'), 'lastchannel'))
 
-        f = utils.xbmcvfs.File('special://profile/addon_data/script.ivueguide/categories.ini','rb')
+        f = utils.xbmcvfs.File(utils.CatFile,'rb')
         lines = f.read().splitlines()
         f.close()
         categories = set()
@@ -1009,6 +1010,15 @@ class TVGuide(xbmcgui.WindowXML):
         elif buttonClicked == CatMenu.C_CAT_QUIT:
             self.close()
 
+        else:
+            control = self.getControl(self.C_MAIN_EPG_VIEW_MARKER)
+            if control:
+                (left, top) = control.getPosition()
+                self.focusPoint.y = top
+            else:
+                self.focusPoint.y = 0
+            self.onRedrawEPG(0, self.viewStartDate)
+
     def programSearch(self, search=None):
 
         title = '?'
@@ -1340,8 +1350,11 @@ class TVGuide(xbmcgui.WindowXML):
             stream = str(url).split('plugin://')[1].split('/?')[0]
             self.set_playing()
            # pvr
-            if stream in utils.playlist:
+
+            if config.radio(stream, url) == False:
                 return
+		    
+            
             if url.isdigit():
                 command = \
                     '{"jsonrpc": "2.0", "id":"1", "method": "Player.Open","params":{"item":{"channelid":%s}}}' \
@@ -1682,8 +1695,7 @@ class TVGuide(xbmcgui.WindowXML):
             self.notification = Notification(self.database,
                     ADDON.getAddonInfo('path'))
             self.onRedrawEPG(0, self.viewStartDate)
-            if ADDON.getSetting('xmltv.type_select') == 'Custom File':
-                self.database.getChannelINI()
+            self.database.getChannelINI()
             self.database.channelSetup()
 
     def onSourceProgressUpdate(self, percentageComplete):
@@ -2214,7 +2226,7 @@ class CatMenu(xbmcgui.WindowXMLDialog):
                 if ret < 0:
                     return
 
-                f = utils.xbmcvfs.File('special://profile/addon_data/script.ivueguide/categories.ini','rb')
+                f = utils.xbmcvfs.File(utils.CatFile,'rb')
                 lines = f.read().splitlines()
                 f.close()
                 categories = {}
@@ -2263,7 +2275,7 @@ class CatMenu(xbmcgui.WindowXMLDialog):
                 elif ret == 2:
                     categories[self.category] = []
 
-                f = utils.xbmcvfs.File('special://profile/addon_data/script.ivueguide/categories.ini','wb')
+                f = utils.xbmcvfs.File(utils.CatFile,'wb')
                 for cat in categories:
                     channels = categories[cat]
                     for channel in channels:

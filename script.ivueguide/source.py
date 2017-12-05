@@ -38,9 +38,10 @@ import xbmcgui
 import xbmcvfs
 import xbmcaddon
 import sqlite3
+import utils
 
 
-SETTINGS_TO_CHECK = ['source', 'xmltv.type', 'xmltv.file', 'xmltv.url', 'xmltv.logo.folder']
+SETTINGS_TO_CHECK = ['source', 'xmltv.type', 'xmltv.file', 'xmltv.url', 'sub.xmltv.url', 'xmltv.logo.folder']
 timeshift = xbmc.translatePath('special://profile/addon_data/script.ivueguide/timezone.ini')
 path_to_settings = xbmc.translatePath('special://profile/addon_data/script.ivueguide')
 current_db = xbmc.translatePath('special://profile/addon_data/script.ivueguide/program.db')
@@ -492,7 +493,7 @@ class Database(object):
         channels = self._getChannelList(onlyVisible=True)
 
         if category and category != "All Channels":
-            f = xbmcvfs.File('special://profile/addon_data/script.ivueguide/categories.ini','rb')
+            f = xbmcvfs.File(utils.CatFile,'rb')
             lines = f.read().splitlines()
             f.close()
             filter = []
@@ -650,7 +651,7 @@ class Database(object):
             channel = Channel(row['id'], row['title'], row['logo'], row['stream_url'], row['visible'], row['weight'])
             channelList.append(channel)
         if all == False and self.category and self.category != "All Channels":
-            f = xbmcvfs.File('special://profile/addon_data/script.ivueguide/categories.ini','rb')
+            f = xbmcvfs.File(utils.CatFile,'rb')
             lines = f.read().splitlines()
             f.close()
             filter = []
@@ -688,6 +689,8 @@ class Database(object):
         return channelList
 
     def getChannelINI(self):
+	if not os.path.exists(xbmc.translatePath('special://profile/addon_data/plugin.video.IVUEcreator')):
+            os.makedirs(xbmc.translatePath('special://profile/addon_data/plugin.video.IVUEcreator'))
         channelsList = self.getChannelList(False,True)
         channels = [channel.title for channel in channelsList]
         ini = xbmcvfs.File('special://profile/addon_data/plugin.video.IVUEcreator/custom_channels.ini','wb')
@@ -702,6 +705,8 @@ class Database(object):
         xmltvType = ADDON.getSetting('xmltv.type_select')
         if xmltvType == '':
             xmltvType = 'IVUE (Freeview UK)'
+        elif xmltvType == 'Sub File':
+            xmltvType = ADDON.getSetting('sub.xmltv')
         xmltvfile = xmltvType + '.ini'
         channelsList = self.getChannelList(False,True)
         ini = xbmcvfs.File('special://profile/addon_data/script.ivueguide/resources/guide_setups/%s' % xmltvfile,'wb')
@@ -1075,7 +1080,8 @@ class XMLTVSource(Source):
     PLUGIN_DATA = xbmc.translatePath(os.path.join('special://profile', 'addon_data', 'script.ivueguide'))
     KEY = 'xmltv'
     LOGO_SOURCE_IVUE = 0
-    LOGO_SOURCE_CUSTOM = 1
+    LOGO_SOURCE_SUB = 1
+    LOGO_SOURCE_CUSTOM = 2
 
     def __init__(self, addon):
         self.conn = None
@@ -1087,7 +1093,8 @@ class XMLTVSource(Source):
         self.xmltvInterval = int(addon.getSetting('xmltv.interval'))
         self.logoSource = int(addon.getSetting('logos.source'))
 
-	LOGO_URL = addon.getSetting('logos')	
+	LOGO_URL = addon.getSetting('logos')
+        SUB_LOGO_URL = addon.getSetting('sub.logos.url')	
 		
         # make sure the folder in the user's profile exists or create it!
         if not os.path.exists(XMLTVSource.PLUGIN_DATA):
@@ -1095,11 +1102,14 @@ class XMLTVSource(Source):
 
         if self.logoSource == XMLTVSource.LOGO_SOURCE_IVUE:
             self.logoFolder = LOGO_URL
+        elif self.logoSource == XMLTVSource.LOGO_SOURCE_SUB:
+            self.logoFolder = SUB_LOGO_URL
         else:
             self.logoFolder = str(addon.getSetting('logos.folder'))
 
 #Karls changes start
 #Karls custom xml import for creator
+        
 
         if self.xmltvType == gType.CUSTOM_FILE_ID:
             if addon.getSetting('custom.xmltv.type') == "0":
@@ -1109,6 +1119,9 @@ class XMLTVSource(Source):
                 self.xmltvFile = str(addon.getSetting('xmltv.file'))# uses local file provided by user!
             else:
                 self.xmltvFile = self.updateLocalFile(str(addon.getSetting('xmltv.url')), addon)
+
+        elif self.xmltvType == gType.SUB_FILE_ID and addon.getSetting('sub.xmltv.url') != '':
+            self.xmltvFile = self.updateLocalFile(str(addon.getSetting('sub.xmltv.url')), addon)
         else:
             self.xmltvFile = self.updateLocalFile(gType.getGuideDataItem(self.xmltvType, gType.GUIDE_FILE), addon)
 
@@ -1121,8 +1134,11 @@ class XMLTVSource(Source):
         fetcher = FileFetcher(name, addon)
         if name == addon.getSetting('xmltv.url'):
             name = 'custom.xml'
+        if name == addon.getSetting('sub.xmltv.url'):
+            name = addon.getSetting('sub.xmltv')+'.xml'
         if name == addon.getSetting('xmltv.url') and name.endswith(".zip"):
             name = 'custom.xml'
+
         path = os.path.join(XMLTVSource.PLUGIN_DATA, name)
         retVal = fetcher.fetchFile()
         if retVal == fetcher.FETCH_OK:
@@ -1245,7 +1261,10 @@ class XMLTVSource(Source):
                     season = None
                     episode = None
                     is_movie = None
-                    language = elem.find("title").get("lang")
+	            if elem.findtext('title') is not None:
+                        language = elem.find("title").get("lang")
+                    else:
+                        language = ""
                     category_list = []
                     for c in category:
                         txt = c.text
@@ -1257,7 +1276,8 @@ class XMLTVSource(Source):
                             category_list.append(txt)
                     categories = ','.join(category_list)
 
-                    episode_num = elem.findtext("episode-num")
+                    episode_num = elem.findtext("episode-num")
+
                     for genre in category:
                         if genre.text and ("movie" in genre.text.lower() or channel.lower().find("sky movies") != -1 \
                                 or "film" in genre.text.lower()):
@@ -1301,12 +1321,12 @@ class XMLTVSource(Source):
                 elif elem.tag == "channel":
                     weight = -1
                     cid = elem.get("id").replace("'", "")  # Make ID safe to use as ' can cause crashes!
-                    title = elem.findtext("display-name")
+                    title = elem.findtext("display-name").replace('UK: ', '').replace('USA/CA: ', '').replace('USA: ', '').replace('CA: ', '').replace('INT: ', '').replace('ENT: ','').replace('UK:', '').replace('USA/CA:', '').replace('USA:', '').replace('CA:', '').replace('INT:', '').replace('ENT:','').replace('NZ : ','').replace('CA : ','').replace('AU : ','').replace('NZ : ','').replace('UK : ','').replace('USA : ','')
 
                     logo = None
                     if logoFolder:
                         logoFile = os.path.join(logoFolder, title + '.png')
-                        if self.logoSource == XMLTVSource.LOGO_SOURCE_IVUE:
+                        if (self.logoSource == XMLTVSource.LOGO_SOURCE_IVUE) or (self.logoSource == XMLTVSource.LOGO_SOURCE_SUB):
                             logo = logoFile.replace(' ', '%20')  # needed due to fetching from a server!
                         elif xbmcvfs.exists(logoFile):
                             logo = logoFile  # local file instead of remote!
@@ -1323,6 +1343,8 @@ class XMLTVSource(Source):
                     xmltvType = ADDON.getSetting('xmltv.type_select')
                     if xmltvType == '':
                         xmltvType = 'IVUE (Freeview UK)'
+                    elif xmltvType == 'Sub File':
+                        xmltvType = ADDON.getSetting('sub.xmltv')
                     xmltvfile = xmltvType + '.ini'
                     inifile = xbmc.translatePath('special://profile/addon_data/script.ivueguide/resources/guide_setups/%s' % xmltvfile)
                     if os.path.exists(inifile):
@@ -1333,9 +1355,9 @@ class XMLTVSource(Source):
                             mysetup.append(line)
                         getlist = sorted(mysetup)
                         for setup in getlist:
-                            if cid == setup.split(' , Visible')[-1]:
+                            if cid == setup.split(' , Visible')[0]:
                                 visible = setup.split('Visible = ')[1].split(' , Position')[0]
-                                weight = setup.split('Position = ')[1]
+                                weight = int(setup.split('Position = ')[1])
                                              
                     result = Channel(cid, title, logo, streamUrl, visible, weight)
 
@@ -1374,7 +1396,7 @@ class XMLTVSource(Source):
             logo = None
             if logoFolder:
                 logoFile = os.path.join(logoFolder, title + '.png')
-            if self.logoSource == XMLTVSource.LOGO_SOURCE_IVUE:
+            if (self.logoSource == XMLTVSource.LOGO_SOURCE_IVUE) or (self.logoSource == XMLTVSource.LOGO_SOURCE_SUB):
                 logo = logoFile.replace(' ', '%20')  # needed due to fetching from a server!
             elif xbmcvfs.exists(logoFile):
                 logo = logoFile  # local file instead of remote!
@@ -1387,6 +1409,8 @@ class XMLTVSource(Source):
             xmltvType = ADDON.getSetting('xmltv.type_select')
             if xmltvType == '':
                 xmltvType = 'IVUE (Freeview UK)'
+            elif xmltvType == 'Sub File':
+                xmltvType = ADDON.getSetting('sub.xmltv')
             xmltvfile = xmltvType + '.ini'
             inifile = xbmc.translatePath('special://profile/addon_data/script.ivueguide/resources/guide_setups/%s' % xmltvfile)
             if os.path.exists(inifile):
@@ -1397,9 +1421,9 @@ class XMLTVSource(Source):
                     mysetup.append(line)
                 getlist = sorted(mysetup)
                 for setup in getlist:
-                    if cid == setup.split(' , Visible')[-1]:
+                    if cid == setup.split(' , Visible')[0]:
                         visible = setup.split('Visible = ')[1].split(' , Position')[0]
-                        weight = setup.split('Position = ')[1]
+                        weight = int(setup.split('Position = ')[1])
 
             chanList = [str(cid).decode("utf8"), str(title).decode("utf8"), str(logo).decode("utf8"), streamUrl, 'xmltv', visible, weight]
             yield chanList

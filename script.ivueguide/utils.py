@@ -17,22 +17,17 @@
 #  http://www.gnu.org/copyleft/gpl.html
 #
 import sys, urllib,urllib2, urlparse, os, xbmcvfs
-import xbmc, xbmcgui, xbmcaddon, xbmcplugin ,re
+import xbmc, xbmcgui, xbmcaddon, xbmcplugin ,re, base64
 import datetime
 import time
 
 addonID = 'script.ivueguide'
 addon = xbmcaddon.Addon(addonID)
 SkinDir = xbmc.translatePath(os.path.join('special://profile', 'addon_data', 'script.ivueguide', 'resources', 'skins'))
-CatFile = xbmc.translatePath(os.path.join('special://profile', 'addon_data', 'script.ivueguide', 'categories.ini'))
-players = addon.getSetting('userurl')+'/playable/unplayable.txt'
+ivuedirectory = base64.decodestring(b'aHR0cDovL2l2dWV0dmd1aWRlLmNvbS9pdnVlZ3VpZGV4bWwv==')
+CatFile = xbmc.translatePath(os.path.join('special://profile', 'addon_data', 'script.ivueguide', 'resources', 'categories', addon.getSetting('categories.path')+'.ini'))
 demand = xbmcvfs.File('special://profile/addon_data/script.ivueguide/resources/catchup.xml','rb').read()
 dialog = xbmcgui.Dialog() 
-playlist = ''
-try:
-    playlist = urllib2.urlopen(players).read().splitlines()
-except:
-    pass
 
 	#Plays a video
 def playMedia(name, image, link, mediaType='Video') :
@@ -81,6 +76,12 @@ def unescape(text):
     text = text.replace('&lt;',   '<')
     return text
 
+def folder():
+	ivuedirectcry = xbmc.translatePath(os.path.join('special://profile', 'addon_data', 'script.ivueguide'))
+	if not os.path.exists(ivuedirectcry):
+	    os.makedirs(ivuedirectcry)
+	return ivuedirectory
+
 def calculateTime(dt):
     return time.mktime(dt.timetuple())
 
@@ -90,6 +91,10 @@ def percent(start_time, end_time):
     current = calculateTime(current_time) - calculateTime(start_time)
     percentagefloat = (100.0 * current) / total
     return int(round(percentagefloat))
+	
+def path():
+    ivuedir = base64.decodestring(b'aHR0cDovL2l2dWV0dmd1aWRlLmNvbS9pdnVlZ3VpZGV4bWwv==')
+    return user
 
 def formatDate(timestamp, longdate=False, day=False):
     if timestamp and day == True:
