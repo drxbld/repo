@@ -70,34 +70,9 @@ addons_ini_path = xbmc.translatePath('special://profile/addon_data/plugin.video.
 addons_index_ini = cp(addons_ini_path)
 
 settings_xml = os.path.join(path_to_ivue, "settings.xml")
-server_path = 'http://ivuetvguide.com/ivueguide/'
-xml = ET.iterparse(settings_xml, events=('end',))
 
-for event, elem in xml:
-    if elem.tag == "setting":
-        if elem.get("id")== "xmltv.type":
-            if elem.get("value") == '6':
-                channels_ini = os.path.join(path_to_creator, "custom_channels.ini")
-            else:
-                channels_ini = os.path.join(path_to_creator, "master_channels.ini")
-                if not os.path.exists(channels_ini):
-                    fp = server_path + 'master_channels.ini'
-                    dp = xbmcgui.DialogProgress()
-                    dp.create('Downloading ini', "working...")
-                    dp.update(50)
-                    xbmc.sleep(1000)
-                    try:
-                        file = urllib.URLopener()
-                        file.retrieve(fp, channels_ini)
-                        dp.update(100,'Complete.')
-                        xbmc.sleep(1000)
-                        dp.close()
+channels_ini = os.path.join(path_to_creator, "custom_channels.ini")
 
-                    except Exception as e:
-                        dp.update(50, 'Error')
-                        xbmc.sleep(1000)
-                        dp.close()
-                        message('Channels.ini download failed %s' % str(e))
 
 
 #########################################
@@ -282,12 +257,7 @@ def player():
     items = []
     for section in sections:
 
-        if section == 'plugin.video.IVUEcreator':
-            fancy_label = 'M3U Playlist'
-        elif section == 'script.ivueguide':
-            fancy_label = 'PVR Playlist'
-        else:
-             fancy_label = section
+        fancy_label = section
 
         items.append(
         {
@@ -298,19 +268,6 @@ def player():
 
     return items
 
-
-@plugin.route('/pvr_subscribe')
-def pvr_subscribe():
-    plugin.set_setting("pvr.subscribe", "true")
-    update('script.ivueguide',True,'')
-    xbmc.executebuiltin('Container.Refresh')
-
-
-@plugin.route('/pvr_unsubscribe')
-def pvr_unsubscribe():
-    plugin.set_setting("pvr.subscribe", "false")
-    remove_addon('script.ivueguide')
-    xbmc.executebuiltin('Container.Refresh')
 
 
 @plugin.route('/play/<url>')
@@ -373,7 +330,6 @@ def clear():
                 os.makedirs(namechange_path)
 
         remove_channels_ini()
-        plugin.set_setting("pvr.subscribe", "false")
         message('Delete addons', 'Done')
 
 
@@ -545,22 +501,7 @@ def subscribe():
 
     items = []
 
-    pvr = plugin.get_setting('pvr.subscribe')
     context_items = []
-    label = "PVR"
-    if pvr == "true":
-        fancy_label = "[COLOR yellow]%s[/COLOR] " % remove_tags(label)
-        context_items.append(("[COLOR yellow][B]%s[/B][/COLOR] " % 'Unsubscribe', 'XBMC.RunPlugin(%s)' % (plugin.url_for(pvr_unsubscribe))))
-    else:
-        fancy_label = "%s" % remove_tags(label)
-        context_items.append(("[COLOR yellow][B]%s[/B][/COLOR] " % 'Subscribe', 'XBMC.RunPlugin(%s)' % (plugin.url_for(pvr_subscribe))))
-    items.append(
-    {
-        'label': fancy_label,
-        'path': plugin.url_for('pvr'),
-        'thumbnail':get_icon_path(''),
-        'context_menu': context_items,
-    })
 
     addons = sorted(addons, key=lambda addon: remove_tags(addon['name']).lower().strip())
     for addon in addons:
@@ -603,92 +544,82 @@ def update(id = '',silent = True, ini_label = ''):
     dp.create('Updating links', "working...")
     dp.update(25)
 
-    if id =='script.ivueguide':
-        if plugin.get_setting("pvr.subscribe") == "true":
-            streams["script.ivueguide"] = {}
-            items = pvr()
-            num_of_addons =+ 1
-            for item in items:
-                name = item["label"]
-                url = item["path"]
-                streams["script.ivueguide"][name] = url
+
+    if id is not '':
+        sections = [id]
+        num_of_addons = 1
     else:
+        sections = addons_index_ini.sections()
+        num_of_addons = len(sections)
 
-        if id is not '':
-            sections = [id]
-            num_of_addons = 1
-        else:
-            sections = addons_index_ini.sections()
-            num_of_addons = len(sections)
+    if num_of_addons < 1:
 
-        if num_of_addons < 1:
+        message('No addons detected!','IVUEcreator')
+        return
 
-            message('No addons detected!','IVUEcreator')
-            return
+    for section in sections:
+        dp.update(30, 'Gathering ' + str(section) + '\'s streams, ' + str(num_of_addons) + ' of ' + str(
+            len(sections)) + ' to go')
+        items = addons_index_ini.items(section)
 
-        for section in sections:
-            dp.update(30, 'Gathering ' + str(section) + '\'s streams, ' + str(num_of_addons) + ' of ' + str(
-                len(sections)) + ' to go')
-            items = addons_index_ini.items(section)
+        for item in items:
+            path = item[1]
+            id = section
 
-            for item in items:
-                path = item[1]
-                id = section
+            if not id in streams:
+                streams[id] = {}
 
-                if not id in streams:
-                    streams[id] = {}
+            try:
+                response = RPC.files.get_directory(media="files", directory=path, properties=["thumbnail"])
+                files = response["files"]
 
-                try:
-                    response = RPC.files.get_directory(media="files", directory=path, properties=["thumbnail"])
-                    files = response["files"]
+            except Exception as e:
+                message('Error: unable to retrieve links from this folder.', str(e))
+                #delete the addons ini entry
 
-                except Exception as e:
-                    message('Error: unable to retrieve links from this folder.', str(e))
-                    #delete the addons ini entry
+                addons_index_ini.remove_option(id, item[0])
 
-                    addons_index_ini.remove_option(id, item[0])
+                with open(addons_ini_path, 'wb') as configfile:
+                    addons_index_ini.write(configfile)
+                break #?
+                #return False
+
+
+            poss_streams, poss_dirs = 0, 0
+            links, thumbnails= {},{}
+
+            for f in files:
+
+                if f['filetype'] == 'file':
+                    poss_streams += 1
+                elif f['filetype'] == 'directory':
+                    poss_dirs += 1
+
+                label = f["label"]
+                file = f["file"]
+
+                while (label in links):
+                    label = "%s." % label
+
+                links[label] = file
+                thumbnails[label] = f["thumbnail"]
+                streams[id][label] = file
+
+            if ini_label == item[0] and silent == False:
+
+                if not sanitycheck('Subscribe to ' + id, 'There are ' + str(poss_streams) + ' streams and \n ' + str(
+                        poss_dirs) + ' directorys in ' + item[0] + ', are you sure?'):
+
+                    dp.update(45, 'carrying on....')
+                    if addons_index_ini.has_section(id):
+                        addons_index_ini.remove_option(id, item[0])
 
                     with open(addons_ini_path, 'wb') as configfile:
                         addons_index_ini.write(configfile)
-                    break #?
-                    #return False
 
+                    break
 
-                poss_streams, poss_dirs = 0, 0
-                links, thumbnails= {},{}
-
-                for f in files:
-
-                    if f['filetype'] == 'file':
-                        poss_streams += 1
-                    elif f['filetype'] == 'directory':
-                        poss_dirs += 1
-
-                    label = f["label"]
-                    file = f["file"]
-
-                    while (label in links):
-                        label = "%s." % label
-
-                    links[label] = file
-                    thumbnails[label] = f["thumbnail"]
-                    streams[id][label] = file
-
-                if ini_label == item[0] and silent == False:
-
-                    if not sanitycheck('Subscribe to ' + id, 'There are ' + str(poss_streams) + ' streams and \n ' + str(
-                            poss_dirs) + ' directorys in ' + item[0] + ', are you sure?'):
-
-                        dp.update(45, 'carrying on....')
-                        if addons_index_ini.has_section(id):
-                            addons_index_ini.remove_option(id, item[0])
-
-                        with open(addons_ini_path, 'wb') as configfile:
-                            addons_index_ini.write(configfile)
-
-                        break
-
-            num_of_addons -= 1
+        num_of_addons -= 1
 
     dp.update(50, 'links retrieved....')
 
@@ -796,35 +727,7 @@ def search(what):
 
     return items
 
-@plugin.route('/pvr')
-def pvr():
-    index = 0
-    urls = []
-    channels = {}
-    for group in ["radio","tv"]:
-        urls = urls + xbmcvfs.listdir("pvr://channels/%s/All channels/" % group)[1]
-    for group in ["radio","tv"]:
-        groupid = "all%s" % group
-        json_query = RPC.PVR.get_channels(channelgroupid=groupid, properties=[ "thumbnail", "channeltype", "hidden", "locked", "channel", "lastplayed", "broadcastnow" ] )
-        if "channels" in json_query:
-            for channel in json_query["channels"]:
-                channelname = channel["label"]
-                channelid = channel["channelid"]-1
-                channellogo = channel['thumbnail']
-                streamUrl = urls[index]
-                index = index + 1
-                url = "pvr://channels/%s/All channels/%s" % (group,streamUrl)
-                channels[url] = channelname
-    items = []
-    for url in sorted(channels, key=lambda x: channels[x]):
-        name = channels[url]
-        items.append(
-        {
-            'label': name,
-            'path': url,
-            'is_playable': True,
-        })
-    return items
+
 @plugin.route('/search_dialog')
 def search_dialog():
     dialog = xbmcgui.Dialog()
@@ -849,147 +752,14 @@ def error_log():
     return False
 
 
-@plugin.route('/addm3u')
-def addm3u():
-    items =[]
-    addon = 'plugin.video.IVUEcreator'
-    items.append(
-        {
-            'label': "Add m3u file  (Some links may require f4mtester)",
-            'path': plugin.url_for('add_m3u'),
-            'thumbnail': get_icon_path('tv'),
-        })
-    items.append(
-        {
-            'label': "Delete m3u playlist",
-            'path': plugin.url_for('remove_addon', id=addon),
-            'thumbnail': get_icon_path('tv'),
-        })
-    return items
-
-
-@plugin.route('/add_m3u')
-def add_m3u():
-
-    addon_path_userdata = xbmc.translatePath('special://profile/addon_data/plugin.video.IVUEcreator/')
-    addon = 'plugin.video.IVUEcreator'
-    pre_txt = "plugin://plugin.video.f4mTester/?url="
-    clean_names = get_clean_names(channels_ini)
-
-    channels = {'name': list(),
-                'path': list(), }
-    dialog = xbmcgui.Dialog()
-    download_file = dialog.yesno('iVue Creator', 'm3u File Location', yeslabel='Url', nolabel='local drives')
-    default = 'http path to file'
-
-    dp = xbmcgui.DialogProgress()
-    dp.create('Retrieving m3u playlist', "working...")
-    dp.update(25)
-
-    if download_file:
-
-        try:
-            http_path_to_m3u = dialog.input('Enter path to .m3u', default, type=xbmcgui.INPUT_ALPHANUM)
-            dp.update(40, 'attempting http download')
-            file = urllib.URLopener()
-            m3u_file = file.retrieve(http_path_to_m3u, os.path.join(addon_path_userdata, "m3u.m3u"))
-            m3u_file = m3u_file[0]
-
-        except Exception as e:
-            download_file = 0
-            dp.update(40, 'Download failed with Error s%.... \n select local file' % e)
-            xbmc.sleep(1000)
-
-    if not download_file:
-        m3u_file = xbmcgui.Dialog().browse(1, "Select m3u", "files")
-        dp.update(40, 'attempting local file read')
-
-    if not m3u_file:
-        message('No m3u file chosen', 'Error')
-        dp.close()
-        return
-
-    dp.update(60, 'playlist loaded, processing...')
-
-        # better file handling here, along with better dupe filename support, just a general re-write really
-    with open(m3u_file) as fp:
-        for line in fp:
-            if "#EXTM3U" not in line:
-
-                if "#EXTINF:" in line:
-                    title = line.rsplit(',', 1)[1]
-                    title = remove_formatting(title.strip(), clean_names, addon)
-
-                    channels['name'].append(title)
-
-                elif "http" in line[0:4]:
-                    path = line[:-1]
-                    post_txt = '&name=' + title + '&streamtype=TSDOWNLOADER|'
-                    if '.ts' in path:
-                        channels['path'].append(pre_txt + path + post_txt)
-                    else:
-                        channels['path'].append(path)
-
-                else:
-                    message("What the hell is this?")
-                    return False
-
-    dp.update(80, 'Writing to file...')
-
-
-    if not addons2_ini.has_section(addon):
-       # addons2_ini.remove_section(addon)
-
-        addons2_ini.add_section(addon)
-
-    count = 0
-    for ii in range(0, len(channels['name'])):
-
-        if addons2_ini.has_option(addon, channels["name"][ii]):
-            channel = str(channels["name"][ii]) + ' ' + str(count)
-            if '<nolabel>' not in channel:
-                addons2_ini.set(addon, channel, channels["path"][ii])
-                count += 1
-        else:
-            if '<nolabel>' not in channels["name"][ii]:
-                addons2_ini.set(addon, channels["name"][ii], channels["path"][ii])
-
-    with open(addons2_filename, 'wb') as configfile:
-        addons2_ini.write(configfile)
-    dp.update(100, 'all done...')
-
-
-@plugin.route('/remove_channels_ini')
-def remove_channels_ini():
-    path_to_creator = xbmc.translatePath('special://profile/addon_data/plugin.video.IVUEcreator')
-    channels_ini = os.path.join(path_to_creator, "master_channels.ini")
-    if os.path.exists(channels_ini):
-        if sanitycheck('IVUEcreator','Update channels.ini?'):
-            os.remove(channels_ini)
-            message('IVUEcreator','Done!!')
-    else:
-        message('No channels.ini to update?!')
-
-    xbmc.executebuiltin('Container.Refresh')
-
-
 @plugin.route('/')
 def index():
     items, context_items = [],[]
 
-    context_items.append(("[COLOR yellow][B]%s[/B][/COLOR] " % 'Update channels INI',
-                          'XBMC.RunPlugin(%s)' % (plugin.url_for(remove_channels_ini))))
     items.append(
         {
             'label': "Subscribe",
             'path': plugin.url_for('subscribe'),
-            'thumbnail': get_tv_path('tv'),
-            'context_menu': context_items,
-        })
-    items.append(
-        {
-            'label': "Add/Delete m3u(s)",
-            'path': plugin.url_for('addm3u'),
             'thumbnail': get_tv_path('tv'),
             'context_menu': context_items,
         })
