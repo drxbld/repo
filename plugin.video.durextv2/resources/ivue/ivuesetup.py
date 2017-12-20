@@ -37,7 +37,8 @@ tmpini       =  xbmc.translatePath(os.path.join('special://home/userdata',''))
 ivuetarget   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/script.ivueguide/'))
 ivueaddons2ini   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/script.ivueguide/addons2.ini'))
 ivuecreate   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/plugin.video.IVUEcreator/'))
-ivuecreateini   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/plugin.video.IVUEcreator/custom_channels.ini'))
+ivuecreateini   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/plugin.video.IVUEcreator/addons_index.ini'))
+ivuecreateini2   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/plugin.video.IVUEcreator/custom_channels.ini'))
 iVue_SETTINGS = xbmc.translatePath(os.path.join('special://home/userdata/addon_data/script.ivueguide','settings.xml'))
 UseriVueSets = xbmc.translatePath(os.path.join('special://home/userdata/addon_data/script.ivueguide','oldsettings.xml'))
 iVueSet = xbmc.translatePath(os.path.join('special://home/addons/plugin.video.durextv2/resources/ivue','ivuesettings.xml'))
@@ -188,6 +189,11 @@ def iVueInt():
 			os.makedirs(ivuecreate)
 	shutil.copyfile(ini, ivuecreateini)	
 	
+	if not os.path.isfile(ivuecreateini2):
+		if not os.path.exists(ivuecreate):
+			os.makedirs(ivuecreate)
+	shutil.copyfile(ini, ivuecreateini2)	
+	
 	
 	a = open(ivuecreateini).read()
 	b = a.replace('<DUREX2UN>',username).replace('<DUREX2PW>',password)
@@ -221,12 +227,6 @@ def iVueInt():
 		if not os.path.exists(iVue_DATA):
 			os.makedirs(iVue_DATA)
 		shutil.copyfile(iVueSet, iVue_SETTINGS)
-	downloader.download(drxcatini, V_drxcatini, dp)
-	FullDB = os.path.join(iVueFold, 'ivuedb.zip')
-	dp = xbmcgui.DialogProgress()
-	dp.create("Durex [COLOR yellow]TV[/COLOR]","Copying DB",'', 'Please Wait')
-	unzip(FullDB,iVue_DATA,dp)
-	xbmc.log("Full iVue Master DB Copied")
 	xbmc.executebuiltin("Dialog.Close(busydialog)")
 	
 	

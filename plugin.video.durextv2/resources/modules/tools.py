@@ -79,6 +79,7 @@ def clear_cache():
 
 
 	dialog = xbmcgui.Dialog()
+	xbmc.executebuiltin('Container.Refresh')
 	dialog.ok(ADDONTITLE, "Cache Cleared Successfully!")
 		
 def get_params():

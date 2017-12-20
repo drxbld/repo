@@ -35,12 +35,13 @@
     <setting id="categories.ini.enabled" value="false" />
     <setting id="categories.ini.file" value="" />
     <setting id="categories.ini.type" value="1" />
-    <setting id="categories.ini.url" value="http://drxbld.com/xml/categories.ini" />
+    <setting id="categories.ini.url" value="" />
     <setting id="categories.launch" value="true" />
+    <setting id="categories.path" value="iVue" />
     <setting id="category" value="Durex" />
     <setting id="channel.color" value="[COLOR ffffffff]white[/COLOR]" />
     <setting id="channel.filter.sort" value="2" />
-    <setting id="creator.interval" value="7" />
+    <setting id="creator.interval" value="1" />
     <setting id="custom.xmltv.type" value="0" />
     <setting id="customSkin.enabled" value="false" />
     <setting id="customSkin.file" value="" />
@@ -73,12 +74,16 @@
     <setting id="skin.colours" value="true" />
     <setting id="skin.exit.menu" value="true" />
     <setting id="stop-stream" value="true" />
+    <setting id="sub.logos" value="" />
+    <setting id="sub.logos.url" value="" />
+    <setting id="sub.xmltv" value="" />
+    <setting id="sub.xmltv.url" value="" />
     <setting id="userid" value="notneeded" />
     <setting id="username" value="notneeded" />
     <setting id="userurl" value="http://ivuetvguide.com/ivueguide/" />
     <setting id="xmltv.file" value="" />
     <setting id="xmltv.interval" value="1" />
-    <setting id="xmltv.type" value="2" />
-    <setting id="xmltv.type_select" value="IVUE (UK USA Amys list)" />
+    <setting id="xmltv.type" value="0" />
+    <setting id="xmltv.type_select" value="IVUE (UK USA Channels)" />
     <setting id="xmltv.url" value="" />
 </settings>
