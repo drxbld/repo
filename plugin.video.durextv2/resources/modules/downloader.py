@@ -41,7 +41,7 @@ def _pbhook(numblocks, blocksize, filesize, dp, start_time):
             total = float(filesize) / (1024 * 1024) 
             mbs = '[COLOR white]%.02f MB[/COLOR] of %.02f MB' % (currently_downloaded, total)
             e = 'Speed: [COLOR lime]%.02f Mb/s ' % mbps_speed  + '[/COLOR]'
-            e += 'ETA: [COLOR yellow]%02d:%02d' % divmod(eta, 60) + '[/COLOR]'
+            e += 'ETA: [COLOR gold]%02d:%02d' % divmod(eta, 60) + '[/COLOR]'
             dp.update(percent, mbs, e)
         except: 
             percent = 100 

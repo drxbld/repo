@@ -119,7 +119,7 @@ def iVueInt2():
 	xbmc.executebuiltin('RunAddon(plugin.video.durextv2)')
 	xbmc.executebuiltin("ActivateWindow(busydialog)")
 	dp = xbmcgui.DialogProgress()
-	dp.create("Durex [COLOR yellow]TV[/COLOR]","Setting up iVue",'', 'Please Wait')
+	dp.create("Durex [COLOR gold]TV[/COLOR]","Setting up iVue",'', 'Please Wait')
 
 
 	if not os.path.exists(iVue_DATA):
@@ -138,7 +138,7 @@ def iVueInt2():
 		os.remove(timeshift)
 		
 
-	dp.create("Durex [COLOR yellow]TV[/COLOR]","Locating Files",'', 'Please Wait')
+	dp.create("Durex [COLOR gold]TV[/COLOR]","Locating Files",'', 'Please Wait')
 	amylist_install('amylist.xml',realamylist)
 	downloader.download(drxsetxml, V_drxsetxml, dp)	
 	downloader.download(drxaddons2ini, V_drxaddons2ini, dp)
@@ -149,7 +149,7 @@ def iVueInt2():
 		
 	#drxskin_install('Durex_TV',drxskins)
 		
-	dp.create("Durex [COLOR yellow]TV[/COLOR]","Adding Information",'', 'Please Wait')
+	dp.create("Durex [COLOR gold]TV[/COLOR]","Adding Information",'', 'Please Wait')
 	a = open(V_drxaddons2ini).read()
 	b = a.replace('<DUREX2UN>',username).replace('<DUREX2PW>',password)
 	f = open(V_drxaddons2ini, mode='w')
@@ -182,7 +182,7 @@ def iVueInt():
 	xbmc.executebuiltin('RunAddon(plugin.video.durextv2)')
 	xbmc.executebuiltin("ActivateWindow(busydialog)")
 	dp = xbmcgui.DialogProgress()
-	dp.create("Durex [COLOR yellow]TV[/COLOR]","Copying ini",'', 'Please Wait')
+	dp.create("Durex [COLOR gold]TV[/COLOR]","Copying ini",'', 'Please Wait')
 	
 	if not os.path.isfile(ivuecreateini):
 		if not os.path.exists(ivuecreate):
@@ -265,7 +265,7 @@ def unzip(_in, _out, dp):
 def amylist_install(name,url):
     path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing Channel List...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing Channel List...",'', 'Please Wait')
     lib=os.path.join(path, 'amylist.zip')
     try:
        os.remove(lib)
@@ -275,14 +275,14 @@ def amylist_install(name,url):
     addonfolder = iVue_DATA
     time.sleep(3)
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing Channel List...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing Channel List...",'', 'Please Wait')
     dp.update(0,"", "Installing Channel List... Please Wait")
     unzip(lib,addonfolder,dp)
     
 def drxskin_install(name,url):
     path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing Durex Skin...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing Durex Skin...",'', 'Please Wait')
     lib=os.path.join(path, 'Durex_TV.zip')
     try:
        os.remove(lib)
@@ -292,14 +292,14 @@ def drxskin_install(name,url):
     addonfolder = V_drxskinpath
     time.sleep(3)
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing Durex Skin...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing Durex Skin...",'', 'Please Wait')
     dp.update(0,"", "Installing Durex Skin... Please Wait")
     unzip(lib,addonfolder,dp)
     
 def install(name,url):
     path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing iVue TV Guide...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing iVue TV Guide...",'', 'Please Wait')
     lib=os.path.join(path, 'content.zip')
     try:
        os.remove(lib)
@@ -309,7 +309,7 @@ def install(name,url):
     addonfolder = xbmc.translatePath(os.path.join('special://home','addons'))
     time.sleep(3)
     dp = xbmcgui.DialogProgress()
-    dp.create("Durex [COLOR yellow]TV[/COLOR]","Installing iVue TV Guide...",'', 'Please Wait')
+    dp.create("Durex [COLOR gold]TV[/COLOR]","Installing iVue TV Guide...",'', 'Please Wait')
     dp.update(0,"", "Installing iVue TV Guide... Please Wait")
     print '======================================='
     print addonfolder
