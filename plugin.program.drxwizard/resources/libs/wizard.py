@@ -2558,3 +2558,51 @@ def OPEN_URL(url):
     response.close()
     return link
     link.replace('\r','').replace('\n','').replace('\t','')
+    
+def unzip(_in, _out, dp):
+	__in = zipfile.ZipFile(_in,  'r')
+	
+	nofiles = float(len(__in.infolist()))
+	count   = 0
+	
+	try:
+		for item in __in.infolist():
+			count += 1
+			update = (count / nofiles) * 100
+			
+			if dp.iscanceled():
+				dialog = xbmcgui.Dialog()
+				dialog.ok(AddonTitle, 'Process was cancelled.')
+				
+				sys.exit()
+				dp.close()
+			
+			try:
+				dp.update(int(update))
+				__in.extract(item, _out)
+			
+			except Exception, e:
+				print str(e)
+
+	except Exception, e:
+		print str(e)
+		return False
+		
+	return True	
+    
+def bg_install(name,url):
+    path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
+    dp = xbmcgui.DialogProgress()
+    dp.create("[COLOR gold]Durex Wizard[/COLOR]","Installing background...",'', 'Please Wait')
+    lib=os.path.join(path, 'backgrounds.zip')
+    try:
+       os.remove(lib)
+    except:
+       pass
+    downloader.download(url, lib, dp)
+    skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+    time.sleep(3)
+    dp = xbmcgui.DialogProgress()
+    dp.create("[COLOR gold]Durex Wizard[/COLOR]","Installing backgrounds...",'', 'Please Wait')
+    dp.update(0,"", "Installing backgrounds... Please Wait")
+    unzip(lib,skinfolder,dp)

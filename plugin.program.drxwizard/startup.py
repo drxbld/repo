@@ -176,8 +176,16 @@ def checkSkin():
 		else: wiz.LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE),'[COLOR %s]Skin Swap Timed Out![/COLOR]' % COLOR2)
 	wiz.log("[Build Check] Invalid Skin Check End", xbmc.LOGNOTICE)
 
-while xbmc.Player().isPlayingVideo():
-	xbmc.sleep(1000)
+wiz.forceUpdate()
+
+bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+bg_zip = 'https://raw.githubusercontent.com/drxbld/backgrounds/master/backgrounds.zip'
+skinTheme = xbmc.getSkinDir().lower()
+if 'durex' in skinTheme:
+	if not os.path.exists(bgfolder):	
+		wiz.bg_install('backgrounds',bg_zip)
+		xbmc.executebuiltin('ReloadSkin()')
+
 
 if KODIV >= 17:
 	NOW = datetime.now()
@@ -423,4 +431,3 @@ if AUTOCLEANUP == 'true':
 else: wiz.log('[Auto Clean Up] Turned off', xbmc.LOGNOTICE)
 
 wiz.setS('kodi17iscrap', '')
-wiz.forceUpdate()
