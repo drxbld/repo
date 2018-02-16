@@ -1,20 +1,20 @@
 ################################################################################
-#      Copyright (C) 2015 Surfacingx                                           #
-#                                                                              #
-#  This Program is free software; you can redistribute it and/or modify        #
-#  it under the terms of the GNU General Public License as published by        #
-#  the Free Software Foundation; either version 2, or (at your option)         #
-#  any later version.                                                          #
-#                                                                              #
-#  This Program is distributed in the hope that it will be useful,             #
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of              #
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                #
-#  GNU General Public License for more details.                                #
-#                                                                              #
-#  You should have received a copy of the GNU General Public License           #
-#  along with XBMC; see the file COPYING.  If not, write to                    #
-#  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.       #
-#  http://www.gnu.org/copyleft/gpl.html                                        #
+#	  Copyright (C) 2015 Surfacingx										   #
+#																			  #
+#  This Program is free software; you can redistribute it and/or modify		#
+#  it under the terms of the GNU General Public License as published by		#
+#  the Free Software Foundation; either version 2, or (at your option)		 #
+#  any later version.														  #
+#																			  #
+#  This Program is distributed in the hope that it will be useful,			 #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of			  #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the				#
+#  GNU General Public License for more details.								#
+#																			  #
+#  You should have received a copy of the GNU General Public License		   #
+#  along with XBMC; see the file COPYING.  If not, write to					#
+#  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.	   #
+#  http://www.gnu.org/copyleft/gpl.html										#
 ################################################################################
 
 import xbmc, xbmcaddon, xbmcgui, xbmcplugin, os, sys, xbmcvfs, HTMLParser, glob, zipfile, json
@@ -31,72 +31,73 @@ import skinSwitch
 import time
 import pyqrcode
 from datetime import date, datetime, timedelta
-try:    from sqlite3 import dbapi2 as database
+try:	from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 from string import digits
+import control
 
-ADDON_ID       = uservar.ADDON_ID
-ADDONTITLE     = uservar.ADDONTITLE
-ADDON          = xbmcaddon.Addon(ADDON_ID)
-VERSION        = ADDON.getAddonInfo('version')
-USER_AGENT     = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36 SE 2.X MetaSr 1.0'
-DIALOG         = xbmcgui.Dialog()
-DP             = xbmcgui.DialogProgress()
-HOME           = xbmc.translatePath('special://home/')
-XBMC           = xbmc.translatePath('special://xbmc/')
-LOG            = xbmc.translatePath('special://logpath/')
-PROFILE        = xbmc.translatePath('special://profile/')
-SOURCE         = xbmc.translatePath('source://')
-ADDONS         = os.path.join(HOME,      'addons')
-USERDATA       = os.path.join(HOME,      'userdata')
-PLUGIN         = os.path.join(ADDONS,    ADDON_ID)
-PACKAGES       = os.path.join(ADDONS,    'packages')
-ADDOND         = os.path.join(USERDATA,  'addon_data')
-ADDONDATA      = os.path.join(USERDATA,  'addon_data', ADDON_ID)
-ADVANCED       = os.path.join(USERDATA,  'advancedsettings.xml')
-SOURCES        = os.path.join(USERDATA,  'sources.xml')
-GUISETTINGS    = os.path.join(USERDATA,  'guisettings.xml')
-FAVOURITES     = os.path.join(USERDATA,  'favourites.xml')
-PROFILES       = os.path.join(USERDATA,  'profiles.xml')
-THUMBS         = os.path.join(USERDATA,  'Thumbnails')
-DATABASE       = os.path.join(USERDATA,  'Database')
-FANART         = os.path.join(PLUGIN,    'fanart.jpg')
-ICON           = os.path.join(PLUGIN,    'icon.png')
-ART            = os.path.join(PLUGIN,    'resources', 'art')
-WIZLOG         = os.path.join(ADDONDATA, 'wizard.log')
-WHITELIST      = os.path.join(ADDONDATA, 'whitelist.txt')
-QRCODES        = os.path.join(ADDONDATA, 'QRCodes')
-SKIN           = xbmc.getSkinDir()
-TODAY          = date.today()
-TOMORROW       = TODAY + timedelta(days=1)
-TWODAYS        = TODAY + timedelta(days=2)
-THREEDAYS      = TODAY + timedelta(days=3)
-ONEWEEK        = TODAY + timedelta(days=7)
-KODIV          = float(xbmc.getInfoLabel("System.BuildVersion")[:4])
-EXCLUDES       = uservar.EXCLUDES
-BUILDFILE      = uservar.BUILDFILE
-APKFILE        = uservar.APKFILE
-YOUTUBEFILE    = uservar.YOUTUBEFILE
-ADDONFILE      = uservar.ADDONFILE
+ADDON_ID	   = uservar.ADDON_ID
+ADDONTITLE	 = uservar.ADDONTITLE
+ADDON		  = xbmcaddon.Addon(ADDON_ID)
+VERSION		= ADDON.getAddonInfo('version')
+USER_AGENT	 = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36 SE 2.X MetaSr 1.0'
+DIALOG		 = xbmcgui.Dialog()
+DP			 = xbmcgui.DialogProgress()
+HOME		   = xbmc.translatePath('special://home/')
+XBMC		   = xbmc.translatePath('special://xbmc/')
+LOG			= xbmc.translatePath('special://logpath/')
+PROFILE		= xbmc.translatePath('special://profile/')
+SOURCE		 = xbmc.translatePath('source://')
+ADDONS		 = os.path.join(HOME,	  'addons')
+USERDATA	   = os.path.join(HOME,	  'userdata')
+PLUGIN		 = os.path.join(ADDONS,	ADDON_ID)
+PACKAGES	   = os.path.join(ADDONS,	'packages')
+ADDOND		 = os.path.join(USERDATA,  'addon_data')
+ADDONDATA	  = os.path.join(USERDATA,  'addon_data', ADDON_ID)
+ADVANCED	   = os.path.join(USERDATA,  'advancedsettings.xml')
+SOURCES		= os.path.join(USERDATA,  'sources.xml')
+GUISETTINGS	= os.path.join(USERDATA,  'guisettings.xml')
+FAVOURITES	 = os.path.join(USERDATA,  'favourites.xml')
+PROFILES	   = os.path.join(USERDATA,  'profiles.xml')
+THUMBS		 = os.path.join(USERDATA,  'Thumbnails')
+DATABASE	   = os.path.join(USERDATA,  'Database')
+FANART		 = os.path.join(PLUGIN,	'fanart.jpg')
+ICON		   = os.path.join(PLUGIN,	'icon.png')
+ART			= os.path.join(PLUGIN,	'resources', 'art')
+WIZLOG		 = os.path.join(ADDONDATA, 'wizard.log')
+WHITELIST	  = os.path.join(ADDONDATA, 'whitelist.txt')
+QRCODES		= os.path.join(ADDONDATA, 'QRCodes')
+SKIN		   = xbmc.getSkinDir()
+TODAY		  = date.today()
+TOMORROW	   = TODAY + timedelta(days=1)
+TWODAYS		= TODAY + timedelta(days=2)
+THREEDAYS	  = TODAY + timedelta(days=3)
+ONEWEEK		= TODAY + timedelta(days=7)
+KODIV		  = float(xbmc.getInfoLabel("System.BuildVersion")[:4])
+EXCLUDES	   = uservar.EXCLUDES
+BUILDFILE	  = uservar.BUILDFILE
+APKFILE		= uservar.APKFILE
+YOUTUBEFILE	= uservar.YOUTUBEFILE
+ADDONFILE	  = uservar.ADDONFILE
 ADVANCEDFILE   = uservar.ADVANCEDFILE
-AUTOUPDATE     = uservar.AUTOUPDATE
-WIZARDFILE     = uservar.WIZARDFILE
+AUTOUPDATE	 = uservar.AUTOUPDATE
+WIZARDFILE	 = uservar.WIZARDFILE
 NOTIFICATION   = uservar.NOTIFICATION
-ENABLE         = uservar.ENABLE
-AUTOINSTALL    = uservar.AUTOINSTALL
+ENABLE		 = uservar.ENABLE
+AUTOINSTALL	= uservar.AUTOINSTALL
 REPOADDONXML   = uservar.REPOADDONXML
-REPOZIPURL     = uservar.REPOZIPURL
-CONTACT        = uservar.CONTACT
-COLOR1         = uservar.COLOR1
-COLOR2         = uservar.COLOR2
+REPOZIPURL	 = uservar.REPOZIPURL
+CONTACT		= uservar.CONTACT
+COLOR1		 = uservar.COLOR1
+COLOR2		 = uservar.COLOR2
 INCLUDENAN   = ADDON.getSetting('includenan')
-INCLUDEURL     = ADDON.getSetting('includeurl')
-INCLUDEBOBUNLEASHED     = ADDON.getSetting('includebobunleashed')
+INCLUDEURL	 = ADDON.getSetting('includeurl')
+INCLUDEBOBUNLEASHED	 = ADDON.getSetting('includebobunleashed')
 INCLUDEELYSIUM = ADDON.getSetting('includeelysium')
 INCLUDECOVENANT  = ADDON.getSetting('includecovenant')
 INCLUDEVIDEO   = ADDON.getSetting('includevideo')
-INCLUDEALL     = ADDON.getSetting('includeall')
-INCLUDEBOB     = ADDON.getSetting('includebob')
+INCLUDEALL	 = ADDON.getSetting('includeall')
+INCLUDEBOB	 = ADDON.getSetting('includebob')
 INCLUDEPHOENIX = ADDON.getSetting('includephoenix')
 INCLUDESPECTO  = ADDON.getSetting('includespecto')
 INCLUDEGENESIS = ADDON.getSetting('includegenesis')
@@ -104,31 +105,31 @@ INCLUDEEXODUS  = ADDON.getSetting('includeexodus')
 INCLUDEONECHAN = ADDON.getSetting('includeonechan')
 INCLUDESALTS   = ADDON.getSetting('includesalts')
 INCLUDESALTSHD = ADDON.getSetting('includesaltslite')
-SHOWADULT      = ADDON.getSetting('adult')
+SHOWADULT	  = ADDON.getSetting('adult')
 WIZDEBUGGING   = ADDON.getSetting('addon_debug')
-DEBUGLEVEL     = ADDON.getSetting('debuglevel')
+DEBUGLEVEL	 = ADDON.getSetting('debuglevel')
 ENABLEWIZLOG   = ADDON.getSetting('wizardlog')
-CLEANWIZLOG    = ADDON.getSetting('autocleanwiz')
+CLEANWIZLOG	= ADDON.getSetting('autocleanwiz')
 CLEANWIZLOGBY  = ADDON.getSetting('wizlogcleanby')
-CLEANDAYS      = ADDON.getSetting('wizlogcleandays')
-CLEANSIZE      = ADDON.getSetting('wizlogcleansize')
-CLEANLINES     = ADDON.getSetting('wizlogcleanlines')
+CLEANDAYS	  = ADDON.getSetting('wizlogcleandays')
+CLEANSIZE	  = ADDON.getSetting('wizlogcleansize')
+CLEANLINES	 = ADDON.getSetting('wizlogcleanlines')
 INSTALLMETHOD  = ADDON.getSetting('installmethod')
-DEVELOPER      = ADDON.getSetting('developer')
-THIRDPARTY     = ADDON.getSetting('enable3rd')
-THIRD1NAME     = ADDON.getSetting('wizard1name')
-THIRD1URL      = ADDON.getSetting('wizard1url')
-THIRD2NAME     = ADDON.getSetting('wizard2name')
-THIRD2URL      = ADDON.getSetting('wizard2url')
-THIRD3NAME     = ADDON.getSetting('wizard3name')
-THIRD3URL      = ADDON.getSetting('wizard3url')
+DEVELOPER	  = ADDON.getSetting('developer')
+THIRDPARTY	 = ADDON.getSetting('enable3rd')
+THIRD1NAME	 = ADDON.getSetting('wizard1name')
+THIRD1URL	  = ADDON.getSetting('wizard1url')
+THIRD2NAME	 = ADDON.getSetting('wizard2name')
+THIRD2URL	  = ADDON.getSetting('wizard2url')
+THIRD3NAME	 = ADDON.getSetting('wizard3name')
+THIRD3URL	  = ADDON.getSetting('wizard3url')
 BACKUPLOCATION = ADDON.getSetting('path') if not ADDON.getSetting('path') == '' else 'special://home/'
-MYBUILDS       = os.path.join(BACKUPLOCATION, 'My_Builds', '')
-LOGFILES       = ['log', 'xbmc.old.log', 'kodi.log', 'kodi.old.log', 'spmc.log', 'spmc.old.log', 'tvmc.log', 'tvmc.old.log']
+MYBUILDS	   = os.path.join(BACKUPLOCATION, 'My_Builds', '')
+LOGFILES	   = ['log', 'xbmc.old.log', 'kodi.log', 'kodi.old.log', 'spmc.log', 'spmc.old.log', 'tvmc.log', 'tvmc.old.log']
 DEFAULTPLUGINS = ['metadata.album.universal', 'metadata.artists.universal', 'metadata.common.fanart.tv', 'metadata.common.imdb.com', 'metadata.common.musicbrainz.org', 'metadata.themoviedb.org', 'metadata.tvdb.com', 'service.xbmc.versioncheck']
-MAXWIZSIZE     = [100, 200, 300, 400, 500, 1000]
-MAXWIZLINES    = [100, 200, 300, 400, 500]
-MAXWIZDATES    = [1, 2, 3, 7]
+MAXWIZSIZE	 = [100, 200, 300, 400, 500, 1000]
+MAXWIZLINES	= [100, 200, 300, 400, 500]
+MAXWIZDATES	= [1, 2, 3, 7]
 
 
 ###########################
@@ -147,7 +148,7 @@ def openS(name=""):
 	ADDON.openSettings()
 
 def clearS(type):
-	build    = {'buildname':'', 'buildversion':'', 'buildtheme':'', 'latestversion':'', 'lastbuildcheck':'2016-01-01'}
+	build	= {'buildname':'', 'buildversion':'', 'buildtheme':'', 'latestversion':'', 'lastbuildcheck':'2016-01-01'}
 	install  = {'installed':'false', 'extract':'', 'errors':''}
 	default  = {'defaultskinignore':'false', 'defaultskin':'', 'defaultskinname':''}
 	lookfeel = ['default.enablerssfeeds', 'default.font', 'default.rssedit', 'default.skincolors', 'default.skintheme', 'default.skinzoom', 'default.soundskin', 'default.startupwindow', 'default.stereostrength']
@@ -213,8 +214,8 @@ ACTION_MOUSE_LONG_CLICK 		= 108
 def TextBox(title, msg):
 	class TextBoxes(xbmcgui.WindowXMLDialog):
 		def onInit(self):
-			self.title      = 101
-			self.msg        = 102
+			self.title	  = 101
+			self.msg		= 102
 			self.scrollbar  = 103
 			self.okbutton   = 201
 			self.showdialog()
@@ -241,7 +242,7 @@ def highlightText(msg):
 	matches = re.compile("-->Python callback/script returned the following error<--(.+?)-->End of Python script error report<--").findall(msg)
 	for item in matches:
 		string = '-->Python callback/script returned the following error<--%s-->End of Python script error report<--' % item
-		msg    = msg.replace(string, '[COLOR red]%s[/COLOR]' % string)
+		msg	= msg.replace(string, '[COLOR red]%s[/COLOR]' % string)
 	msg = msg.replace('WARNING', '[COLOR yellow]WARNING[/COLOR]').replace('ERROR', '[COLOR red]ERROR[/COLOR]').replace('[NL]', '\n').replace(': EXCEPTION Thrown (PythonToCppException) :', '[COLOR red]: EXCEPTION Thrown (PythonToCppException) :[/COLOR]')
 	msg = msg.replace('\\\\', '\\').replace(HOME, '')
 	return msg
@@ -283,17 +284,17 @@ def checkBuild(name, ret):
 	match = re.compile('name="%s".+?ersion="(.+?)".+?rl="(.+?)".+?ui="(.+?)".+?odi="(.+?)".+?heme="(.+?)".+?con="(.+?)".+?anart="(.+?)".+?review="(.+?)".+?dult="(.+?)".+?escription="(.+?)"' % name).findall(link)
 	if len(match) > 0:
 		for version, url, gui, kodi, theme, icon, fanart, preview, adult, description in match:
-			if ret   == 'version':       return version
-			elif ret == 'url':           return url
-			elif ret == 'gui':           return gui
-			elif ret == 'kodi':          return kodi
-			elif ret == 'theme':         return theme
-			elif ret == 'icon':          return icon
-			elif ret == 'fanart':        return fanart
-			elif ret == 'preview':       return preview
-			elif ret == 'adult':         return adult
+			if ret   == 'version':	   return version
+			elif ret == 'url':		   return url
+			elif ret == 'gui':		   return gui
+			elif ret == 'kodi':		  return kodi
+			elif ret == 'theme':		 return theme
+			elif ret == 'icon':		  return icon
+			elif ret == 'fanart':		return fanart
+			elif ret == 'preview':	   return preview
+			elif ret == 'adult':		 return adult
 			elif ret == 'description':   return description
-			elif ret == 'all':           return name, version, url, gui, kodi, theme, icon, fanart, preview, adult, description
+			elif ret == 'all':		   return name, version, url, gui, kodi, theme, icon, fanart, preview, adult, description
 	else: return False
 
 def checkTheme(name, theme, ret):
@@ -303,12 +304,12 @@ def checkTheme(name, theme, ret):
 	match = re.compile('name="%s".+?rl="(.+?)".+?con="(.+?)".+?anart="(.+?)".+?dult=(.+?).+?escription="(.+?)"' % theme).findall(link)
 	if len(match) > 0:
 		for url, icon, fanart, adult, description in match:
-			if ret   == 'url':           return url
-			elif ret == 'icon':          return icon
-			elif ret == 'fanart':        return fanart
-			elif ret == 'adult':         return adult
+			if ret   == 'url':		   return url
+			elif ret == 'icon':		  return icon
+			elif ret == 'fanart':		return fanart
+			elif ret == 'adult':		 return adult
 			elif ret == 'description':   return description
-			elif ret == 'all':           return name, theme, url, icon, fanart, adult, description
+			elif ret == 'all':		   return name, theme, url, icon, fanart, adult, description
 	else: return False
 
 def checkWizard(ret):
@@ -317,9 +318,9 @@ def checkWizard(ret):
 	match = re.compile('id="%s".+?ersion="(.+?)".+?ip="(.+?)"' % ADDON_ID).findall(link)
 	if len(match) > 0:
 		for version, zip in match:
-			if ret   == 'version':       return version
-			elif ret == 'zip':           return zip
-			elif ret == 'all':           return ADDON_ID, version, zip
+			if ret   == 'version':	   return version
+			elif ret == 'zip':		   return zip
+			elif ret == 'all':		   return ADDON_ID, version, zip
 	else: return False
 
 def buildCount(ver=None):
@@ -393,13 +394,13 @@ def workingURL(url):
 	return status
  
 def openURL(url):
-    req = urllib2.Request(url)
-    req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-    response = urllib2.urlopen(req)
-    link=response.read()
-    response.close()
-    return link
-    link.replace('\r','').replace('\n','').replace('\t','')
+	req = urllib2.Request(url)
+	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+	response = urllib2.urlopen(req)
+	link=response.read()
+	response.close()
+	return link
+	link.replace('\r','').replace('\n','').replace('\t','')
 
 ###########################
 ###### Misc Functions #####
@@ -468,12 +469,12 @@ def getCacheSize():
 		files = []
 		if INCLUDEALL == 'true': files = dbfiles
 		else:
-			if INCLUDENAN == 'true':     files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
-			if INCLUDEURL == 'true':     files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
-			if INCLUDEBOBUNLEASHED == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
-			if INCLUDEELYSIUM == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
-			if INCLUDECOVENANT == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.covenant', 'cache.db')),
-			if INCLUDEBOB == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.bob', 'cache.db'))
+			if INCLUDENAN == 'true':	 files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
+			if INCLUDEURL == 'true':	 files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
+			if INCLUDEBOBUNLEASHED == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
+			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
+			if INCLUDECOVENANT == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.covenant', 'cache.db')),
+			if INCLUDEBOB == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob', 'cache.db'))
 			if INCLUDEPHOENIX == 'true': files.append(os.path.join(ADDOND, 'plugin.video.phstreams', 'cache.db'))
 			if INCLUDESPECTO == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.specto', 'cache.db'))
 			if INCLUDEGENESIS == 'true': files.append(os.path.join(ADDOND, 'plugin.video.genesis', 'cache.db'))
@@ -497,7 +498,7 @@ def removeFolder(path):
 
 def removeFile(path):
 	log("Deleting File: %s" % path, xbmc.LOGNOTICE)
-	try:    os.remove(path)
+	try:	os.remove(path)
 	except: return False
 
 def currSkin():
@@ -567,8 +568,8 @@ def checkLog():
 	next = TOMORROW
 	if CLEANWIZLOGBY == '0':
 		keep = TODAY - timedelta(days=MAXWIZDATES[int(float(CLEANDAYS))])
-		x    = 0
-		f    = open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
+		x	= 0
+		f	= open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
 		for line in lines:
 			if str(line[1:11]) >= str(keep):
 				break
@@ -578,14 +579,14 @@ def checkLog():
 		f = open(WIZLOG, 'w'); f.write(writing); f.close()
 	elif CLEANWIZLOGBY == '1':
 		maxsize = MAXWIZSIZE[int(float(CLEANSIZE))]*1024
-		f    = open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
+		f	= open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
 		if os.path.getsize(WIZLOG) >= maxsize:
 			start = len(lines)/2
 			newfile = lines[start:]
 			writing = '\n'.join(newfile)
 			f = open(WIZLOG, 'w'); f.write(writing); f.close()
 	elif CLEANWIZLOGBY == '2':
-		f      = open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
+		f	  = open(WIZLOG); a = f.read(); f.close(); lines = a.split('\n')
 		maxlines = MAXWIZLINES[int(float(CLEANLINES))]
 		if len(lines) > maxlines:
 			start = len(lines) - int(maxlines/2)
@@ -650,7 +651,7 @@ def toggleAdult():
 
 def createTemp(plugin):
 	temp   = os.path.join(PLUGIN, 'resources', 'tempaddon.xml')
-	f      = open(temp, 'r'); r = f.read(); f.close()
+	f	  = open(temp, 'r'); r = f.read(); f.close()
 	plugdir = os.path.join(ADDONS, plugin)
 	if not os.path.exists(plugdir): os.makedirs(plugdir)
 	a = open(os.path.join(plugdir, 'addon.xml'), 'w')
@@ -661,7 +662,7 @@ def createTemp(plugin):
 def fixmetas():
 	idlist = ['plugin.video.metalliq', 'plugin.video.meta', 'script.renegadesmeta']
 	temp   = os.path.join(PLUGIN, 'resources', 'tempaddon.xml')
-	f      = open(temp, 'r'); r = f.read(); f.close()
+	f	  = open(temp, 'r'); r = f.read(); f.close()
 	for item in idlist:
 		fold = os.path.join(ADDONS, item)
 		if os.path.exists(fold):
@@ -678,10 +679,10 @@ def toggleAddon(id, value, over=None):
 	addonid  = id
 	addonxml = os.path.join(ADDONS, id, 'addon.xml')
 	if os.path.exists(addonxml):
-		f        = open(addonxml)
-		b        = f.read()
-		tid      = parseDOM(b, 'addon', ret='id')
-		tname    = parseDOM(b, 'addon', ret='name')
+		f		= open(addonxml)
+		b		= f.read()
+		tid	  = parseDOM(b, 'addon', ret='id')
+		tname	= parseDOM(b, 'addon', ret='name')
 		tservice = parseDOM(b, 'extension', ret='library', attrs = {'point': 'xbmc.service'})
 		try:
 			if len(tid) > 0:
@@ -728,7 +729,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 def generateQR(url, filename):
 	if not os.path.exists(QRCODES): os.makedirs(QRCODES)
 	imagefile = os.path.join(QRCODES,'%s.png' % filename)
- 	qrIMG     = pyqrcode.create(url)
+ 	qrIMG	 = pyqrcode.create(url)
 	qrIMG.png(imagefile, scale=10)
 	return imagefile
 
@@ -1115,12 +1116,12 @@ def asciiCheck(use=None, over=False):
 	
 	files_found  = os.path.join(ADDONDATA, 'asciifiles.txt')
 	files_fails  = os.path.join(ADDONDATA, 'asciifails.txt')
-	afiles       = open(files_found, mode='w+')
-	afails       = open(files_fails, mode='w+')
-	f1           = 0; f2           = 0
-	items        = fileCount(source)
-	msg          = ''
-	prog         = []
+	afiles	   = open(files_found, mode='w+')
+	afails	   = open(files_fails, mode='w+')
+	f1		   = 0; f2		   = 0
+	items		= fileCount(source)
+	msg		  = ''
+	prog		 = []
 	log("Source file: (%s)" % str(source), xbmc.LOGNOTICE)
 	
 	DP.create(ADDONTITLE, 'Please wait...')
@@ -1189,7 +1190,7 @@ def defaultSkin():
 	if not os.path.exists(gui): return False
 	log("Reading gui file: %s" % gui, xbmc.LOGNOTICE)
 	guif = open(gui, 'r+')
-	msg = guif.read().replace('\n','').replace('\r','').replace('\t','').replace('    ',''); guif.close()
+	msg = guif.read().replace('\n','').replace('\r','').replace('\t','').replace('	',''); guif.close()
 	log("Opening gui settings", xbmc.LOGNOTICE)
 	match = re.compile('<lookandfeel>.+?<ski.+?>(.+?)</skin>.+?</lookandfeel>').findall(msg)
 	log("Matches: %s" % str(match), xbmc.LOGNOTICE)
@@ -1255,7 +1256,7 @@ def convertAdvanced():
 def backUpOptions(type, name=""):
 	exclude_dirs  = [ADDON_ID, 'cache', 'system', 'Thumbnails', 'peripheral_data', 'temp', 'My_Builds', 'library', 'keymaps']
 	exclude_files = ['Textures13.db', '.DS_Store', 'advancedsettings.xml', 'Thumbs.db', '.gitignore']
-	bad_files     = [os.path.join(DATABASE, 'onechannelcache.db'),
+	bad_files	 = [os.path.join(DATABASE, 'onechannelcache.db'),
 					 os.path.join(DATABASE, 'saltscache.db'), 
 					 os.path.join(DATABASE, 'saltscache.db-shm'), 
 					 os.path.join(DATABASE, 'saltscache.db-wal'),
@@ -1285,7 +1286,7 @@ def backUpOptions(type, name=""):
 			name = urllib.quote_plus(name); tempzipname = ''
 			zipname = os.path.join(mybuilds, '%s.zip' % name)
 			for_progress  = 0
-			ITEM          = []
+			ITEM		  = []
 			if not DIALOG.yesno(ADDONTITLE, "[COLOR %s]Do you want to include your addon_data folder?" % COLOR2, 'This contains [COLOR %s]ALL[/COLOR] addon settings including passwords but may also contain important information such as skin shortcuts. We recommend [COLOR %s]MANUALLY[/COLOR] removing the addon_data folders that aren\'t required.' % (COLOR1, COLOR1), '[COLOR %s]%s[/COLOR] addon_data is ignored[/COLOR]' % (COLOR1, ADDON_ID), yeslabel='[B][COLOR green]Include data[/COLOR][/B]',nolabel='[B][COLOR red]Don\'t Include[/COLOR][/B]'):
 				exclude_dirs.append('addon_data')
 			convertSpecial(HOME, True)
@@ -1374,7 +1375,7 @@ def backUpOptions(type, name=""):
 						return
 			try:
 				zipf.write(GUISETTINGS, 'guisettings.xml', zipfile.ZIP_DEFLATED)
-				zipf.write(PROFILES,    'profiles.xml',    zipfile.ZIP_DEFLATED)
+				zipf.write(PROFILES,	'profiles.xml',	zipfile.ZIP_DEFLATED)
 				match = glob.glob(os.path.join(ADDOND,'skin.*', ''))
 				log(str(match), xbmc.LOGNOTICE)
 				for fold in match:
@@ -1488,8 +1489,8 @@ def backUpOptions(type, name=""):
 					elif foldername == 'packages': continue
 					xml = os.path.join(folder, 'addon.xml')
 					if os.path.exists(xml):
-						f      = open(xml)
-						a      = f.read()
+						f	  = open(xml)
+						a	  = f.read()
 						match  = parseDOM(a, 'addon', ret='name')
 						if len(match) > 0:
 							addonnames.append(match[0])
@@ -1564,7 +1565,7 @@ def backUpOptions(type, name=""):
 					else:
 						return
 			for_progress  = 0
-			ITEM          = []
+			ITEM		  = []
 			convertSpecial(ADDOND, True)
 			asciiCheck(ADDOND, True)
 			DP.create("[COLOR %s]%s[/COLOR][COLOR %s]: Creating Zip[/COLOR]" % (COLOR1, ADDONTITLE,COLOR2), "[COLOR %s]Creating back up zip" % COLOR2, "", "Please Wait...[/COLOR]")
@@ -1720,14 +1721,14 @@ def restoreExternal(type):
 ##########################
 
 def platform():
-	if xbmc.getCondVisibility('system.platform.android'):             return 'android'
-	elif xbmc.getCondVisibility('system.platform.linux'):             return 'linux'
+	if xbmc.getCondVisibility('system.platform.android'):			 return 'android'
+	elif xbmc.getCondVisibility('system.platform.linux'):			 return 'linux'
 	elif xbmc.getCondVisibility('system.platform.linux.Raspberrypi'): return 'linux'
-	elif xbmc.getCondVisibility('system.platform.windows'):           return 'windows'
-	elif xbmc.getCondVisibility('system.platform.osx'):               return 'osx'
-	elif xbmc.getCondVisibility('system.platform.atv2'):              return 'atv2'
-	elif xbmc.getCondVisibility('system.platform.ios'):               return 'ios'
-	elif xbmc.getCondVisibility('system.platform.darwin'):            return 'ios'
+	elif xbmc.getCondVisibility('system.platform.windows'):		   return 'windows'
+	elif xbmc.getCondVisibility('system.platform.osx'):			   return 'osx'
+	elif xbmc.getCondVisibility('system.platform.atv2'):			  return 'atv2'
+	elif xbmc.getCondVisibility('system.platform.ios'):			   return 'ios'
+	elif xbmc.getCondVisibility('system.platform.darwin'):			return 'ios'
 
 def Grab_Log(file=False, old=False, wizard=False):
 	if wizard == True:
@@ -1736,8 +1737,8 @@ def Grab_Log(file=False, old=False, wizard=False):
 			if file == True:
 				return WIZLOG
 			else:
-				filename    = open(WIZLOG, 'r')
-				logtext     = filename.read()
+				filename	= open(WIZLOG, 'r')
+				logtext	 = filename.read()
 				filename.close()
 				return logtext
 	finalfile   = 0
@@ -1752,8 +1753,8 @@ def Grab_Log(file=False, old=False, wizard=False):
 		logsfound.sort(key=lambda f: os.path.getmtime(f))
 		if file == True: return logsfound[-1]
 		else:
-			filename    = open(logsfound[-1], 'r')
-			logtext     = filename.read()
+			filename	= open(logsfound[-1], 'r')
+			logtext	 = filename.read()
 			filename.close()
 			return logtext
 	else: 
@@ -1772,15 +1773,15 @@ def whiteList(do):
 			elif foldername == 'packages': continue
 			xml = os.path.join(folder, 'addon.xml')
 			if os.path.exists(xml):
-				f       = open(xml)
-				a       = f.read()
+				f	   = open(xml)
+				a	   = f.read()
 				f.close()
 				getid   = parseDOM(a, 'addon', ret='id')
 				getname = parseDOM(a, 'addon', ret='name')
 				addid   = foldername if len(getid) == 0 else getid[0]
 				title   = foldername if len(getname) == 0 else getname[0]
-				temp    = title.replace('[', '<').replace(']', '>')
-				temp    = re.sub('<[^<]+?>', '', temp)
+				temp	= title.replace('[', '<').replace(']', '>')
+				temp	= re.sub('<[^<]+?>', '', temp)
 				addonnames.append(temp)
 				addonids.append(addid)
 				addonfolds.append(foldername)
@@ -1792,18 +1793,18 @@ def whiteList(do):
 			xml  = os.path.join(ADDONS, foldername, 'addon.xml')
 			xml2 = os.path.join(XBMC, 'addons', foldername, 'addon.xml')
 			if os.path.exists(xml):
-				f       = open(xml)
+				f	   = open(xml)
 			elif os.path.exists(xml2):
-				f       = open(xml2)
+				f	   = open(xml2)
 			else: continue
-			a       = f.read()
+			a	   = f.read()
 			f.close()
 			getid   = parseDOM(a, 'addon', ret='id')
 			getname = parseDOM(a, 'addon', ret='name')
 			addid   = foldername if len(getid) == 0 else getid[0]
 			title   = foldername if len(getname) == 0 else getname[0]
-			temp    = title.replace('[', '<').replace(']', '>')
-			temp    = re.sub('<[^<]+?>', '', temp)
+			temp	= title.replace('[', '<').replace(']', '>')
+			temp	= re.sub('<[^<]+?>', '', temp)
 			addonnames.append(temp)
 			addonids.append(addid)
 			addonfolds.append(foldername)
@@ -1875,8 +1876,8 @@ def whiteList(do):
 		if not source.endswith('.txt'):
 			LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), "[COLOR %s]Import Cancelled![/COLOR]" % COLOR2)
 			return
-		f       = xbmcvfs.File(source)
-		a       = f.read()
+		f	   = xbmcvfs.File(source)
+		a	   = f.read()
 		f.close()
 		current = whiteList('read'); idList = []; count = 0
 		for item in current:
@@ -2041,13 +2042,13 @@ def clearCache(over=None):
 		files = []
 		if INCLUDEALL == 'true': files = dbfiles
 		else:
-			if INCLUDENAN == 'true':     files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
-			if INCLUDEURL == 'true':     files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
-			if INCLUDEBOBUNLEASHED == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
-			if INCLUDEELYSIUM == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
-			if INCLUDEELYSIUM == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'meta.db')),
-			if INCLUDECOVENANT == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.covenant', 'cache.db')),
-			if INCLUDEBOB == 'true':     files.append(os.path.join(ADDOND, 'plugin.video.bob', 'cache.db'))
+			if INCLUDENAN == 'true':	 files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
+			if INCLUDEURL == 'true':	 files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
+			if INCLUDEBOBUNLEASHED == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
+			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
+			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'meta.db')),
+			if INCLUDECOVENANT == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.covenant', 'cache.db')),
+			if INCLUDEBOB == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob', 'cache.db'))
 			if INCLUDEPHOENIX == 'true': files.append(os.path.join(ADDOND, 'plugin.video.phstreams', 'cache.db'))
 			if INCLUDESPECTO == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.specto', 'cache.db'))
 			if INCLUDEGENESIS == 'true': files.append(os.path.join(ADDOND, 'plugin.video.genesis', 'cache.db'))
@@ -2092,11 +2093,11 @@ def checkSources():
 	if not os.path.exists(SOURCES):
 		LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), "[COLOR %s]No Sources.xml File Found![/COLOR]" % COLOR2)
 		return False
-	x      = 0
-	bad    = []
+	x	  = 0
+	bad	= []
 	remove = []
-	f      = open(SOURCES)
-	a      = f.read()
+	f	  = open(SOURCES)
+	a	  = f.read()
 	temp   = a.replace('\r','').replace('\n','').replace('\t','')
 	match  = re.compile('<files>.+?</files>').findall(temp)
 	f.close()
@@ -2104,7 +2105,7 @@ def checkSources():
 		match2  = re.compile('<source>.+?<name>(.+?)</name>.+?<path pathversion="1">(.+?)</path>.+?<allowsharing>(.+?)</allowsharing>.+?</source>').findall(match[0])
 		DP.create(ADDONTITLE, "[COLOR %s]Scanning Sources for Broken links[/COLOR]" % COLOR2)
 		for name, path, sharing in match2:
-			x     += 1
+			x	 += 1
 			perc   = int(percentage(x, len(match2)))
 			DP.update(perc, '', "[COLOR %s]Checking [COLOR %s]%s[/COLOR]:[/COLOR]" % (COLOR2, COLOR1, name), "[COLOR %s]%s[/COLOR]" % (COLOR1, path))
 			if 'http' in path:
@@ -2126,7 +2127,7 @@ def checkSources():
 					else: log("Source %s was not removed" % name, xbmc.LOGNOTICE)
 			if len(remove) > 0:
 				for name, path, sharing, working in remove: 
-					a = a.replace('\n        <source>\n            <name>%s</name>\n            <path pathversion="1">%s</path>\n            <allowsharing>%s</allowsharing>\n        </source>' % (name, path, sharing), '')
+					a = a.replace('\n		<source>\n			<name>%s</name>\n			<path pathversion="1">%s</path>\n			<allowsharing>%s</allowsharing>\n		</source>' % (name, path, sharing), '')
 					log("Removing Source %s" % name, xbmc.LOGNOTICE)
 				
 				f = open(SOURCES, mode='w')
@@ -2255,12 +2256,12 @@ def kodi17Fix():
 		addonxml = os.path.join(folder, 'addon.xml')
 		if os.path.exists(addonxml):
 			fold   = folder.replace(ADDONS, '')[1:-1]
-			f      = open(addonxml)
-			a      = f.read()
-			aid    = parseDOM(a, 'addon', ret='id')
+			f	  = open(addonxml)
+			a	  = f.read()
+			aid	= parseDOM(a, 'addon', ret='id')
 			f.close()
 			try:
-				add    = xbmcaddon.Addon(id=aid[0])
+				add	= xbmcaddon.Addon(id=aid[0])
 			except:
 				try:
 					log("%s was disabled" % aid[0], xbmc.LOGDEBUG)
@@ -2357,9 +2358,9 @@ def purgeDb(name):
 
 def oldThumbs():
 	dbfile = os.path.join(DATABASE, latestDB('Textures'))
-	use    = 10
+	use	= 10
 	week   = TODAY - timedelta(days=7)
-	ids    = []
+	ids	= []
 	images = []
 	size   = 0
 	if os.path.exists(dbfile):
@@ -2380,9 +2381,9 @@ def oldThumbs():
 		for rows2 in found2:
 			images.append(rows2[0])
 	log("%s total thumbs cleaned up." % str(len(images)), xbmc.LOGNOTICE)
-	for id in ids:       
+	for id in ids:	   
 		textexe.execute("DELETE FROM sizes   WHERE idtexture = ?", (id, ))
-		textexe.execute("DELETE FROM texture WHERE id        = ?", (id, ))
+		textexe.execute("DELETE FROM texture WHERE id		= ?", (id, ))
 	textexe.execute("VACUUM")
 	textdb.commit()
 	textexe.close()
@@ -2399,114 +2400,114 @@ def oldThumbs():
 	else: LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]Clear Thumbs: None Found![/COLOR]' % COLOR2)
 
 def parseDOM(html, name=u"", attrs={}, ret=False):
-    # Copyright (C) 2010-2011 Tobias Ussing And Henrik Mosgaard Jensen
+	# Copyright (C) 2010-2011 Tobias Ussing And Henrik Mosgaard Jensen
 
-    if isinstance(html, str):
-        try:
-            html = [html.decode("utf-8")]
-        except:
-            html = [html]
-    elif isinstance(html, unicode):
-        html = [html]
-    elif not isinstance(html, list):
-        return u""
+	if isinstance(html, str):
+		try:
+			html = [html.decode("utf-8")]
+		except:
+			html = [html]
+	elif isinstance(html, unicode):
+		html = [html]
+	elif not isinstance(html, list):
+		return u""
 
-    if not name.strip():
-        return u""
+	if not name.strip():
+		return u""
 
-    ret_lst = []
-    for item in html:
-        temp_item = re.compile('(<[^>]*?\n[^>]*?>)').findall(item)
-        for match in temp_item:
-            item = item.replace(match, match.replace("\n", " "))
+	ret_lst = []
+	for item in html:
+		temp_item = re.compile('(<[^>]*?\n[^>]*?>)').findall(item)
+		for match in temp_item:
+			item = item.replace(match, match.replace("\n", " "))
 
-        lst = []
-        for key in attrs:
-            lst2 = re.compile('(<' + name + '[^>]*?(?:' + key + '=[\'"]' + attrs[key] + '[\'"].*?>))', re.M | re.S).findall(item)
-            if len(lst2) == 0 and attrs[key].find(" ") == -1:
-                lst2 = re.compile('(<' + name + '[^>]*?(?:' + key + '=' + attrs[key] + '.*?>))', re.M | re.S).findall(item)
+		lst = []
+		for key in attrs:
+			lst2 = re.compile('(<' + name + '[^>]*?(?:' + key + '=[\'"]' + attrs[key] + '[\'"].*?>))', re.M | re.S).findall(item)
+			if len(lst2) == 0 and attrs[key].find(" ") == -1:
+				lst2 = re.compile('(<' + name + '[^>]*?(?:' + key + '=' + attrs[key] + '.*?>))', re.M | re.S).findall(item)
 
-            if len(lst) == 0:
-                lst = lst2
-                lst2 = []
-            else:
-                test = range(len(lst))
-                test.reverse()
-                for i in test:
-                    if not lst[i] in lst2:
-                        del(lst[i])
+			if len(lst) == 0:
+				lst = lst2
+				lst2 = []
+			else:
+				test = range(len(lst))
+				test.reverse()
+				for i in test:
+					if not lst[i] in lst2:
+						del(lst[i])
 
-        if len(lst) == 0 and attrs == {}:
-            lst = re.compile('(<' + name + '>)', re.M | re.S).findall(item)
-            if len(lst) == 0:
-                lst = re.compile('(<' + name + ' .*?>)', re.M | re.S).findall(item)
+		if len(lst) == 0 and attrs == {}:
+			lst = re.compile('(<' + name + '>)', re.M | re.S).findall(item)
+			if len(lst) == 0:
+				lst = re.compile('(<' + name + ' .*?>)', re.M | re.S).findall(item)
 
-        if isinstance(ret, str):
-            lst2 = []
-            for match in lst:
-                attr_lst = re.compile('<' + name + '.*?' + ret + '=([\'"].[^>]*?[\'"])>', re.M | re.S).findall(match)
-                if len(attr_lst) == 0:
-                    attr_lst = re.compile('<' + name + '.*?' + ret + '=(.[^>]*?)>', re.M | re.S).findall(match)
-                for tmp in attr_lst:
-                    cont_char = tmp[0]
-                    if cont_char in "'\"":
-                        if tmp.find('=' + cont_char, tmp.find(cont_char, 1)) > -1:
-                            tmp = tmp[:tmp.find('=' + cont_char, tmp.find(cont_char, 1))]
+		if isinstance(ret, str):
+			lst2 = []
+			for match in lst:
+				attr_lst = re.compile('<' + name + '.*?' + ret + '=([\'"].[^>]*?[\'"])>', re.M | re.S).findall(match)
+				if len(attr_lst) == 0:
+					attr_lst = re.compile('<' + name + '.*?' + ret + '=(.[^>]*?)>', re.M | re.S).findall(match)
+				for tmp in attr_lst:
+					cont_char = tmp[0]
+					if cont_char in "'\"":
+						if tmp.find('=' + cont_char, tmp.find(cont_char, 1)) > -1:
+							tmp = tmp[:tmp.find('=' + cont_char, tmp.find(cont_char, 1))]
 
-                        if tmp.rfind(cont_char, 1) > -1:
-                            tmp = tmp[1:tmp.rfind(cont_char)]
-                    else:
-                        if tmp.find(" ") > 0:
-                            tmp = tmp[:tmp.find(" ")]
-                        elif tmp.find("/") > 0:
-                            tmp = tmp[:tmp.find("/")]
-                        elif tmp.find(">") > 0:
-                            tmp = tmp[:tmp.find(">")]
+						if tmp.rfind(cont_char, 1) > -1:
+							tmp = tmp[1:tmp.rfind(cont_char)]
+					else:
+						if tmp.find(" ") > 0:
+							tmp = tmp[:tmp.find(" ")]
+						elif tmp.find("/") > 0:
+							tmp = tmp[:tmp.find("/")]
+						elif tmp.find(">") > 0:
+							tmp = tmp[:tmp.find(">")]
 
-                    lst2.append(tmp.strip())
-            lst = lst2
-        else:
-            lst2 = []
-            for match in lst:
-                endstr = u"</" + name
+					lst2.append(tmp.strip())
+			lst = lst2
+		else:
+			lst2 = []
+			for match in lst:
+				endstr = u"</" + name
 
-                start = item.find(match)
-                end = item.find(endstr, start)
-                pos = item.find("<" + name, start + 1 )
+				start = item.find(match)
+				end = item.find(endstr, start)
+				pos = item.find("<" + name, start + 1 )
 
-                while pos < end and pos != -1:
-                    tend = item.find(endstr, end + len(endstr))
-                    if tend != -1:
-                        end = tend
-                    pos = item.find("<" + name, pos + 1)
+				while pos < end and pos != -1:
+					tend = item.find(endstr, end + len(endstr))
+					if tend != -1:
+						end = tend
+					pos = item.find("<" + name, pos + 1)
 
-                if start == -1 and end == -1:
-                    temp = u""
-                elif start > -1 and end > -1:
-                    temp = item[start + len(match):end]
-                elif end > -1:
-                    temp = item[:end]
-                elif start > -1:
-                    temp = item[start + len(match):]
+				if start == -1 and end == -1:
+					temp = u""
+				elif start > -1 and end > -1:
+					temp = item[start + len(match):end]
+				elif end > -1:
+					temp = item[:end]
+				elif start > -1:
+					temp = item[start + len(match):]
 
-                if ret:
-                    endstr = item[end:item.find(">", item.find(endstr)) + 1]
-                    temp = match + temp + endstr
+				if ret:
+					endstr = item[end:item.find(">", item.find(endstr)) + 1]
+					temp = match + temp + endstr
 
-                item = item[item.find(temp, item.find(match)) + len(temp):]
-                lst2.append(temp)
-            lst = lst2
-        ret_lst += lst
+				item = item[item.find(temp, item.find(match)) + len(temp):]
+				lst2.append(temp)
+			lst = lst2
+		ret_lst += lst
 
-    return ret_lst
+	return ret_lst
 
 
 def replaceHTMLCodes(txt):
-    txt = re.sub("(&#[0-9]+)([^;^0-9]+)", "\\1;\\2", txt)
-    txt = HTMLParser.HTMLParser().unescape(txt)
-    txt = txt.replace("&quot;", "\"")
-    txt = txt.replace("&amp;", "&")
-    return txt
+	txt = re.sub("(&#[0-9]+)([^;^0-9]+)", "\\1;\\2", txt)
+	txt = HTMLParser.HTMLParser().unescape(txt)
+	txt = txt.replace("&quot;", "\"")
+	txt = txt.replace("&amp;", "&")
+	return txt
 
 import os
 from shutil import *
@@ -2547,18 +2548,18 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 		
 def DESTROY_PATH(path):
-    #dp.create("Durex Wizard","Wiping...",'', 'Please Wait')
-    shutil.rmtree(path, ignore_errors=True)
+	#dp.create("Durex Wizard","Wiping...",'', 'Please Wait')
+	shutil.rmtree(path, ignore_errors=True)
 
 def OPEN_URL(url):
-    req = urllib2.Request(url)
-    req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-    response = urllib2.urlopen(req)
-    link=response.read()
-    response.close()
-    return link
-    link.replace('\r','').replace('\n','').replace('\t','')
-    
+	req = urllib2.Request(url)
+	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+	response = urllib2.urlopen(req)
+	link=response.read()
+	response.close()
+	return link
+	link.replace('\r','').replace('\n','').replace('\t','')
+	
 def unzip(_in, _out, dp):
 	__in = zipfile.ZipFile(_in,  'r')
 	
@@ -2589,20 +2590,81 @@ def unzip(_in, _out, dp):
 		return False
 		
 	return True	
-    
+
+	
+def searchdialog():
+	search = control.inputDialog(heading='Please enter http:// url of zip file')
+	if search=="":
+		return
+	else:
+		return search
+		
+def bg_custom():
+	bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+	skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+	DIALOG.ok(ADDONTITLE, "You will need a zip file uploaded to a file hosting site such as a personal server, dropbox, archive.org., etc.", "Then obtain the [COLOR gold]zip file url (http://***/***.zip)[/COLOR]")
+	DIALOG.ok(ADDONTITLE, "[COLOR red]DO NOT[/COLOR] put images in a folder and zip them. All images must be compressed outside of a folder into a zip.")
+	dialog = xbmcgui.Dialog().yesno('[COLOR gold]Durex Wizard[/COLOR]','Are you sure you want to continue installing your custom background .zip?', '[COLOR red]You must have http:// url ending with .zip for next step.[/COLOR]')
+	if dialog:
+		url = searchdialog()
+		WORKINGURL = workingURL(url)
+		if not WORKINGURL == True:
+			LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR red]Custom url not valid[/COLOR]')
+		else:	
+			if not os.path.exists(bgfolder):	
+				os.makedirs(bgfolder)
+			bg_install('Custom Backgrounds',url)
+	else:
+		return
+		
+def bg_remove():
+	bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+	skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+	dialog = xbmcgui.Dialog().yesno('[COLOR gold]Durex Wizard[/COLOR]','Are you sure you would like to clear backgrounds folder?')
+	if dialog:
+		if os.path.exists(bgfolder):	
+			shutil.rmtree(bgfolder)
+		if not os.path.exists(bgfolder):	
+			os.makedirs(bgfolder)
+		xbmc.executebuiltin('ReloadSkin()')
+		LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]Backgrounds Removed[/COLOR]' % COLOR2)
+	else:
+		return
+
+def bg_default():
+	url = 'https://raw.githubusercontent.com/drxbld/bg/master/default.zip'
+	bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+	skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+	if os.path.exists(bgfolder):	
+		shutil.rmtree(bgfolder)
+	if not os.path.exists(bgfolder):	
+		os.makedirs(bgfolder)
+	bg_install('Default Background',url)
+		
+		
 def bg_install(name,url):
-    path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
-    dp = xbmcgui.DialogProgress()
-    dp.create("[COLOR gold]Durex Wizard[/COLOR]","Installing background...",'', 'Please Wait')
-    lib=os.path.join(path, 'backgrounds.zip')
-    try:
-       os.remove(lib)
-    except:
-       pass
-    downloader.download(url, lib, dp)
-    skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
-    time.sleep(3)
-    dp = xbmcgui.DialogProgress()
-    dp.create("[COLOR gold]Durex Wizard[/COLOR]","Installing backgrounds...",'', 'Please Wait')
-    dp.update(0,"", "Installing backgrounds... Please Wait")
-    unzip(lib,skinfolder,dp)
+	WORKINGURL = workingURL(url)
+	if not WORKINGURL == True:
+		LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR red]%s url not valid[/COLOR]' % (name))
+	else:		
+		bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+		skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+		if not os.path.exists(bgfolder):	
+			os.makedirs(bgfolder)
+		path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
+		dp = xbmcgui.DialogProgress()
+		dp.create("[COLOR gold]Durex Wizard[/COLOR]","Downloading %s..." %(name),'', 'Please Wait')
+		lib=os.path.join(path, 'backgrounds.zip')
+		try:
+			os.remove(lib)
+		except:
+			pass
+		downloader.download(url, lib, dp)
+		skinfolder = xbmc.translatePath(os.path.join('special://home/addons','skin.durexonfluence'))
+		bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
+		time.sleep(3)
+		dp = xbmcgui.DialogProgress()
+		dp.create("[COLOR gold]Durex Wizard[/COLOR]","Installing %s..." %(name),'', 'Please Wait')
+		unzip(lib,bgfolder,dp)
+		xbmc.executebuiltin('ReloadSkin()')
+		LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]%s Installed[/COLOR]' % (COLOR2, name))

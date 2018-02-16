@@ -179,12 +179,19 @@ def checkSkin():
 wiz.forceUpdate()
 
 bgfolder = xbmc.translatePath(os.path.join('special://home/addons/skin.durexonfluence','backgrounds'))
-bg_zip = 'https://raw.githubusercontent.com/drxbld/backgrounds/master/backgrounds.zip'
+bg_zip = 'https://raw.githubusercontent.com/drxbld/bg/master/backgrounds.zip'
 skinTheme = xbmc.getSkinDir().lower()
 if 'durex' in skinTheme:
-	if not os.path.exists(bgfolder):	
-		wiz.bg_install('backgrounds',bg_zip)
-		xbmc.executebuiltin('ReloadSkin()')
+	if not os.path.exists(bgfolder):
+		dialog = xbmcgui.Dialog().yesno('[COLOR gold]Durex Wizard[/COLOR]','Would you like to install backgrounds?')
+		if dialog:
+			wiz.bg_install('Backgrounds',bg_zip)
+		else:
+			if os.path.exists(bgfolder):	
+				shutil.rmtree(bgfolder)
+			if not os.path.exists(bgfolder):	
+				os.makedirs(bgfolder)
+			pass
 
 
 if KODIV >= 17:
