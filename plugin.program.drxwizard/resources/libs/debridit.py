@@ -48,7 +48,7 @@ KEEPTRAKT      = wiz.getS('keepdebrid')
 REALSAVE       = wiz.getS('debridlastsave')
 COLOR1         = uservar.COLOR1
 COLOR2         = uservar.COLOR2
-ORDER          = ['exodus', 'specto', 'url']
+ORDER          = ['exodus', 'specto', 'url', 'resolve']
 
 DEBRIDID = { 
 	'exodus': {
@@ -86,7 +86,19 @@ DEBRIDID = {
 		'settings' : os.path.join(ADDOND, 'script.module.urlresolver', 'settings.xml'),
 		'default'  : 'RealDebridResolver_client_id',
 		'data'     : ['RealDebridResolver_enabled', 'RealDebridResolver_priority', 'RealDebridResolver_autopick', 'RealDebridResolver_token', 'RealDebridResolver_refresh', 'RealDebridResolver_client_id', 'RealDebridResolver_client_secret'],
-		'activate' : 'RunPlugin(plugin://script.module.urlresolver/?mode=auth_rd)'}
+		'activate' : 'RunPlugin(plugin://script.module.urlresolver/?mode=auth_rd)'},
+	'resolve': {
+		'name'     : 'Resolve URL',
+		'plugin'   : 'script.module.resolveurl',
+		'saved'    : 'resolveurl',
+		'path'     : os.path.join(ADDONS, 'script.module.resolveurl'),
+		'icon'     : os.path.join(ADDONS, 'script.module.resolveurl', 'icon.png'),
+		'fanart'   : os.path.join(ADDONS, 'script.module.resolveurl', 'fanart.jpg'),
+		'file'     : os.path.join(REALFOLD, 'resolve_debrid'),
+		'settings' : os.path.join(ADDOND, 'script.module.resolveurl', 'settings.xml'),
+		'default'  : 'RealDebridResolver_client_id',
+		'data'     : ['RealDebridResolver_enabled', 'RealDebridResolver_priority', 'RealDebridResolver_autopick', 'RealDebridResolver_token', 'RealDebridResolver_refresh', 'RealDebridResolver_client_id', 'RealDebridResolver_client_secret'],
+		'activate' : 'RunPlugin(plugin://script.module.resolveurl/?mode=auth_rd)'}
 }
 
 def debridUser(who):

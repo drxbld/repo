@@ -67,6 +67,12 @@
 		<setting id="includespecto" type="bool" label="Include Specto Cache DB: " default="true" enable="!eq(-12,false)" visible="!eq(-12,false)"/>
 		<setting id="includegenesis" type="bool" label="Include Genesis Cache DB: " default="true" enable="!eq(-13,false)" visible="!eq(-13,false)"/>
 		<setting id="includeonechan" type="bool" label="Include OneChannel Cache DB: " default="true" enable="!eq(-14,false)" visible="!eq(-14,false)"/>
+		<setting id="includeresolve" type="bool" label="Include Resolve Url Cache: " default="true" enable="!eq(-15,false)" visible="!eq(-15,false)"/>
+		<setting id="includeplacenta" type="bool" label="Include Placenta Cache: " default="true" enable="!eq(-16,false)" visible="!eq(-16,false)"/>
+		<setting id="includeneptune" type="bool" label="Include Neptune Rising Cache: " default="true" enable="!eq(-17,false)" visible="!eq(-17,false)"/>
+		<setting id="includegenesisreborn" type="bool" label="Genesis Reborn Rising Cache: " default="true" enable="!eq(-18,false)" visible="!eq(-18,false)"/>
+		<setting id="includeflixnet" type="bool" label="Include Flixnet Cache: " default="true" enable="!eq(-18,false)" visible="!eq(-18,false)"/>
+		<setting id="includeuranus" type="bool" label="Include Uranus Cache: " default="true" enable="!eq(-19,false)" visible="!eq(-19,false)"/>
 	</category>
 
 	<category label="Install Settings">
@@ -110,6 +116,7 @@
 		<setting id="realexodus" type="text" label="Exodus: " enable="false" default=""/>
 		<setting id="realspecto" type="text" label="Specto: " enable="false" default=""/>
 		<setting id="urlresolver" type="text" label="Url Resolver: " enable="false" default=""/>
+		<setting id="resolveurl" type="text" label="Resolve Url: " enable="false" default=""/>
 		<setting id="debridlastsave" type="text" label="Last Time Real Debrid Saved: " enable="false" default=""/>
 	</category>
 

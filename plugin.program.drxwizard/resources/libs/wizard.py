@@ -105,6 +105,12 @@ INCLUDEEXODUS  = ADDON.getSetting('includeexodus')
 INCLUDEONECHAN = ADDON.getSetting('includeonechan')
 INCLUDESALTS   = ADDON.getSetting('includesalts')
 INCLUDESALTSHD = ADDON.getSetting('includesaltslite')
+INCLUDERESOLVE    = ADDON.getSetting('includeresolve')
+INCLUDEPLACENTA    = ADDON.getSetting('includeplacenta')
+INCLUDENEPTUNE    = ADDON.getSetting('includeneptune')
+INCLUDEGENESISREBORN    = ADDON.getSetting('includegenesisreborn')
+INCLUDEFLIXNET    = ADDON.getSetting('includeflixnet')
+INCLUDEURANUS    = ADDON.getSetting('includeuranus')
 SHOWADULT	  = ADDON.getSetting('adult')
 WIZDEBUGGING   = ADDON.getSetting('addon_debug')
 DEBUGLEVEL	 = ADDON.getSetting('debuglevel')
@@ -442,7 +448,13 @@ def getCacheSize():
 		(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db')),
 		(os.path.join(DATABASE,  'onechannelcache.db')),
 		(os.path.join(DATABASE,  'saltscache.db')),
-		(os.path.join(DATABASE,  'saltshd.lite.db'))]
+		(os.path.join(DATABASE,  'saltshd.lite.db')),
+		(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.placenta', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.neptune', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.flixnet', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.genesisreborn', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.uranus', 'cache.db'))]
 	cachelist = [
 		(PROFILEADDONDATA),
 		(ADDOND),
@@ -471,6 +483,7 @@ def getCacheSize():
 		else:
 			if INCLUDENAN == 'true':	 files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
 			if INCLUDEURL == 'true':	 files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
+			if INCLUDERESOLVE == 'true':	 files.append(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db')),
 			if INCLUDEBOBUNLEASHED == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
 			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
 			if INCLUDECOVENANT == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.covenant', 'cache.db')),
@@ -482,6 +495,12 @@ def getCacheSize():
 			if INCLUDEONECHAN == 'true': files.append(os.path.join(DATABASE,  'onechannelcache.db'))
 			if INCLUDESALTS == 'true':   files.append(os.path.join(DATABASE,  'saltscache.db'))
 			if INCLUDESALTSHD == 'true': files.append(os.path.join(DATABASE,  'saltshd.lite.db'))
+			if INCLUDERESOLVE == 'true':  files.append(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db'))
+			if INCLUDEPLACENTA == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.placenta', 'cache.db'))
+			if INCLUDENEPTUNE == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.neptune', 'cache.db'))
+			if INCLUDEFLIXNET == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.flixnet', 'cache.db'))
+			if INCLUDEGENESISREBORN == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.genesisreborn', 'cache.db'))
+			if INCLUDEURANUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.uranus', 'cache.db'))
 		if len(files) > 0:
 			for item in files: totalsize = getSize(item, totalsize)
 		else: log("Clear Cache: Clear Video Cache Not Enabled", xbmc.LOGNOTICE)
@@ -1977,6 +1996,7 @@ def clearCache(over=None):
 
 		(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
 		(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
+		(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db')),		
 		(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
 		(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
 		(os.path.join(ADDOND, 'plugin.video.elysium', 'meta.db')),
@@ -1988,7 +2008,13 @@ def clearCache(over=None):
 		(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db')),
 		(os.path.join(DATABASE,  'onechannelcache.db')),
 		(os.path.join(DATABASE,  'saltscache.db')),
-		(os.path.join(DATABASE,  'saltshd.lite.db'))]
+		(os.path.join(DATABASE,  'saltshd.lite.db')),
+		(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.placenta', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.neptune', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.flixnet', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.genesisreborn', 'cache.db')),
+		(os.path.join(ADDOND, 'plugin.video.uranus', 'cache.db'))]
 		
 	cachelist = [
 		(PROFILEADDONDATA),
@@ -2044,6 +2070,7 @@ def clearCache(over=None):
 		else:
 			if INCLUDENAN == 'true':	 files.append(os.path.join(ADDOND, 'script.module.nanscrapers', 'url_cache.db')),
 			if INCLUDEURL == 'true':	 files.append(os.path.join(ADDOND, 'script.module.urlresolver', 'cache.db')),
+			if INCLUDERESOLVE == 'true':	 files.append(os.path.join(ADDOND, 'script.module.resolveurl', 'cache.db')),
 			if INCLUDEBOBUNLEASHED == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.bob.unleashed', 'cache.db')),
 			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'cache.db')),
 			if INCLUDEELYSIUM == 'true':	 files.append(os.path.join(ADDOND, 'plugin.video.elysium', 'meta.db')),
@@ -2056,6 +2083,12 @@ def clearCache(over=None):
 			if INCLUDEONECHAN == 'true': files.append(os.path.join(DATABASE,  'onechannelcache.db'))
 			if INCLUDESALTS == 'true':   files.append(os.path.join(DATABASE,  'saltscache.db'))
 			if INCLUDESALTSHD == 'true': files.append(os.path.join(DATABASE,  'saltshd.lite.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
+			if INCLUDEEXODUS == 'true':  files.append(os.path.join(ADDOND, 'plugin.video.exodus', 'cache.db'))
 		if len(files) > 0:
 			for item in files:
 				if os.path.exists(item):
