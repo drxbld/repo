@@ -18,6 +18,8 @@ def regex_get_all(text, start_with, end_with):
 def addDir(name,url,mode,iconimage,fanart,description):
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&description="+urllib.quote_plus(description)
 	ok=True
+	name = '[COLOR white]%s[/COLOR]'%(name)
+	description = '[COLOR white]%s[/COLOR]'%(description)
 	liz=xbmcgui.ListItem(name, iconImage=iconimage, thumbnailImage=iconimage)
 	liz.setInfo( type="Video", infoLabels={"Title": name,"Plot":description,})
 	liz.setProperty('fanart_image', fanart)
@@ -34,6 +36,13 @@ def addDir(name,url,mode,iconimage,fanart,description):
 	xbmcplugin.endOfDirectory
 	
 def addDirMeta(name,url,mode,iconimage,fanart,description,year,cast,rating,runtime,genre):
+	name = '[COLOR white]%s[/COLOR]'%(name)
+	description = '[COLOR white]%s[/COLOR]'%(description)
+	year = '[COLOR white]%s[/COLOR]'%(year)
+	cast = '[COLOR white]%s[/COLOR]'%(cast)
+	rating = '[COLOR white]%s[/COLOR]'%(rating)
+	runtime = '[COLOR white]%s[/COLOR]'%(runtime)
+	genre = '[COLOR white]%s[/COLOR]'%(genre)
 	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&description="+urllib.quote_plus(description)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage=iconimage, thumbnailImage=iconimage)
