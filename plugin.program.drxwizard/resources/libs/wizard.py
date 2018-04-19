@@ -833,6 +833,12 @@ def forceUpdate(silent=False):
 	ebi('UpdateLocalAddons()')
 	if silent == False: LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]Forcing Addon Updates[/COLOR]' % COLOR2)
 
+def forceUpdate2(silent=False):
+	ebi('UpdateAddonRepos()')
+	ebi('UpdateLocalAddons()')
+	if silent == False: LogNotify("[COLOR %s]%s[/COLOR]" % (COLOR1, ADDONTITLE), '[COLOR %s]Forcing Addon Updates[/COLOR]' % COLOR2)
+	ebi('ActivateWindow(10040,&quot;addons://outdated/&quot;,return)')
+
 def convertSpecial(url, over=False):
 	total = fileCount(url); start = 0
 	DP.create(ADDONTITLE, "[COLOR %s]Changing Physical Paths To Special" % COLOR2, "", "Please Wait[/COLOR]")

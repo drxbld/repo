@@ -50,6 +50,9 @@ ICONTHUMBS       = 'https://raw.githubusercontent.com/drxbld/images/master/thumb
 ICONTRASH       = 'https://raw.githubusercontent.com/drxbld/images/master/trash.png'
 ICONPACKAGE       = 'https://raw.githubusercontent.com/drxbld/images/master/package.png'
 ICONUPDATE       = 'https://raw.githubusercontent.com/drxbld/images/master/update.png'
+ICONFORCE       = 'https://raw.githubusercontent.com/drxbld/images/master/forceupdate.png'
+ICONRD       = 'https://raw.githubusercontent.com/drxbld/images/master/realdebrid.png'
+ICONSET       = 'https://raw.githubusercontent.com/drxbld/images/master/settings.png'
 # Hide the ====== seperators 'Yes' or 'No'
 HIDESPACERS    = 'No'
 # Character used in seperator
