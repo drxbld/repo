@@ -52,6 +52,7 @@ ICONPACKAGE       = 'https://raw.githubusercontent.com/drxbld/images/master/pack
 ICONUPDATE       = 'https://raw.githubusercontent.com/drxbld/images/master/update.png'
 ICONFORCE       = 'https://raw.githubusercontent.com/drxbld/images/master/forceupdate.png'
 ICONRD       = 'https://raw.githubusercontent.com/drxbld/images/master/realdebrid.png'
+ICONTRAKT       = 'https://raw.githubusercontent.com/drxbld/images/master/trakt.png'
 ICONSET       = 'https://raw.githubusercontent.com/drxbld/images/master/settings.png'
 # Hide the ====== seperators 'Yes' or 'No'
 HIDESPACERS    = 'No'
