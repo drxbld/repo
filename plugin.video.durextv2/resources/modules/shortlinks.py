@@ -6,9 +6,9 @@ username     = control.setting('Username')
 password     = control.setting('Password')
 def Get():
 	xbmc.executebuiltin("ActivateWindow(busydialog)")
-	m3u  = 'http://durextv.vodiptv.org%3A83%2Fget.php%3Fusername%3D'+username+'%26password%3D'+password+'%26type%3Dm3u_plus%26output%3Dts'
-	epg  = 'http://durextv.vodiptv.org%3A83%2Fxmltv.php%3Fusername%3D'+username+'%26password%3D'+password
-	auth = 'http://durextv.vodiptv.org:83/enigma2.php?username='+username+'&password='+password+'&type=get_vod_categories'
+	m3u  = 'http://162.218.64.131%3A83%2Fget.php%3Fusername%3D'+username+'%26password%3D'+password+'%26type%3Dm3u_plus%26output%3Dts'
+	epg  = 'http://162.218.64.131%3A83%2Fxmltv.php%3Fusername%3D'+username+'%26password%3D'+password
+	auth = 'http://162.218.64.131:83/enigma2.php?username='+username+'&password='+password+'&type=get_vod_categories'
 	auth = tools.OPEN_URL(auth)
 	if not auth=="":
 		request  = 'https://tinyurl.com/create.php?source=indexpage&url='+m3u+'&submit=Make+TinyURL%21&alias='
