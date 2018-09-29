@@ -536,8 +536,8 @@ provider-name="Team IVUE">
 </addon>
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.illuminati" name="Closed" version="1.2.3" provider-name="Closed">
-	<extension point="xbmc.addon.repository" name="Durex Build Repo">
+<addon id="repository.illuminati" name="Closed" version="9999.9" provider-name="Closed">
+	<extension point="xbmc.addon.repository" name="Closed">
 		<info compressed="false">https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml</info>
 		<checksum>https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml.md5</checksum>
 		<datadir zip="true">https://raw.githubusercontent.com/drxbld2/repo/master/</datadir>
@@ -547,6 +547,49 @@ provider-name="Team IVUE">
 		<description>Kodi Repository Backup for Durex Build</description>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<?xml version="1.0" encoding="UTF-8"?>
+    <addon id="repository.ukodi1" name="ukodi1" version="0.0.8" provider-name="ukodi1">
+       <extension point="xbmc.addon.repository" name="ukodi1">
+       
+            <dir>      
+            <info compressed="false">http://ukodi1.com/_repo/addons.xml</info>
+            <checksum>http://ukodi1.com/_repo/addons.xml.md5</checksum>
+            <datadir zip="true">http://ukodi1.com/_repo/</datadir>
+            <hashes>false</hashes>
+            </dir>
+            
+            <dir>
+			<info compressed="false">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml</info>
+			<checksum>https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml.md5</checksum>
+			<datadir zip="true">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/</datadir>
+		</dir>
+        
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/</datadir>
+            <hashes>false</hashes>
+        </dir>
+	
+		<dir>
+			<info compressed="false">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml</info>
+			<checksum>https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml.md5</checksum>
+			<datadir zip="true">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/</datadir>
+		</dir>
+		
+		<dir>
+            <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
+        </dir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>Welcome to the Ukodi1 Repository</summary>
+            <description></description>
+            <platform>all</platform>
+    </extension>
 </addon>
 
 </addons>
