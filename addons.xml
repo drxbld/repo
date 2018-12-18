@@ -18,9 +18,9 @@
 
 <?xml version="1.1" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.durextv2"
-       name=" Durex [COLOR crimson]TV[/COLOR] 2.0"
-       version="7.5"
-       provider-name="Durex Build">
+       name=" [COLOR crimson]TV[/COLOR]"
+       version="8.0"
+       provider-name="TV">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.requests" />
@@ -30,9 +30,9 @@
         <provides>video executable</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">Durex [COLOR gold]TV[/COLOR]</summary>
+    <summary lang="en">[COLOR gold]TV[/COLOR]</summary>
     <language>en</language>
-    <description lang="en">Durex TV offers premium quality streams. Credits to sClark for original code for this addon. Credits to Cellardoor for icons.</description>
+    <description lang="en">Credits to sClark for original code for this addon.</description>
      <platform>all</platform>
   </extension>
 </addon>
@@ -83,27 +83,6 @@
         <source></source>
         <forum></forum>
     </extension>
-</addon>
-
-<?xml version="1.1" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.durextv"
-       name=" Durex [COLOR red]TV[/COLOR] 1.0"
-       version="1.6"
-       provider-name="Durex Build">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-  <import addon="script.module.requests" />
-  </requires>
-  <extension point="xbmc.python.pluginsource"
-            library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">Durex [COLOR red]TV[/COLOR]</summary>
-    <language>en</language>
-    <description lang="en">Durex TV offers premium quality streams. Credits to sClarke for the code used in this addon.</description>
-     <platform>all</platform>
-  </extension>
 </addon>
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -296,41 +275,6 @@ provider-name="Team IVUE">
 </addon>
 
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="repository.maverickrepo" name="[COLOR gold]MaverickTV Repo[/COLOR]" version="3.4" provider-name="Maverick TV">
-<extension point="xbmc.addon.repository" name="[COLOR gold]MaverickTV Repo[/COLOR]">
-	<dir>
-		<info compressed="false">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml</info>	
-		<checksum>https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/</datadir>
-	</dir>
-	<dir>
-		<info compressed="false">https://raw.githubusercontent.com/duncanh52/modrepo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/duncanh52/modrepo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/duncanh52/modrepo/master/plugins/</datadir>
-	</dir>
-	<dir>
-        <info compressed="false">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/</datadir>
-    </dir>
-	<dir>
-        <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
-    </dir>
-
-		<info compressed="false">https://raw.githubusercontent.com/Maverick53/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/Maverick53/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/Maverick53/repo/master/plugins/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>The MaverickTV Repository v3.4</summary>
-		<description>The MaverickTV Repository for add-on and dependencies</description>
-		<platform>all</platform>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8"?>
     <addon id="repository.eggman" name="Eggman" version="0.0.8" provider-name="Eggman">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
@@ -345,33 +289,6 @@ provider-name="Team IVUE">
             <summary>Eggman Repo</summary>
             <description>Eggman Repo</description>
             <platform>all</platform>
-    </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.falconreborn" name="Falcon Reborn" version="1.6" provider-name="Team Falcon">
-    <requires>
-        <import addon="xbmc.python" version="2.19.0" />
-        <import addon="script.module.universalscrapers" version="1.0.0" />
-        <import addon="script.module.python.koding.aio" version="0.9.6.6" />
-        <import addon="script.module.beautifulsoup" version="3.2.1" />
-        <import addon="script.module.requests" version="2.9.1" />
-        <import addon="script.module.addon.common" version="2.0.0" />
-        <import addon="script.module.xmltodict" version="0.9.0" />
-        <!--<import addon="script.module.web-pdb" version="1.0"/>-->
-        <import addon="script.module.resolveurl" />
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>audio video</provides>
-    </extension>
-    <extension point="xbmc.service" library="service.py" start="[login|startup]" />
-    <extension point="xbmc.addon.metadata">
-        <summary lang="en">All In One Addon From Team Falcon</summary>
-        <description lang="en">All In One Addon From Team Falcon</description>
-        <disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works.</disclaimer>
-        <platform>all</platform>
-        <website/>
-        <video_guide></video_guide>
     </extension>
 </addon>
 
@@ -397,199 +314,6 @@ provider-name="Team IVUE">
     <description>Watch Asain Drama Movies and TVShows on DramaGo</description>
     <platform>all</platform>
   </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.resistance" version="6.5.5" name="resistance" provider-name="Scarecrow">
-	<requires>
-		<import addon="xbmc.python" version="2.19.0" />
-		<import addon="script.module.resistance" />
-		<import addon="script.resistance.artwork" />
-		<import addon="script.resistance.metadata" />
-		<import addon="script.module.resolveurl" />
-		<import addon="script.module.requests" />
-		<import addon="script.module.metahandler" version="1.0.0" />
-	</requires>
-	<extension point="xbmc.python.pluginsource" library="resistance.py">
-		<provides>video</provides>
-	</extension>
-	<extension point="xbmc.service" library="service.py" start="startup" />
-	<extension point="xbmc.addon.metadata">
-		<summary lang="en">resistance</summary>
-		<description lang="en">resistance</description>
-		<platform>all</platform>
-		<license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-		<forum></forum>
-		<website></website>
-		<source></source>
-		<disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
-		<assets>
-			<icon>icon.png</icon>
-			<fanart>fanart.jpg</fanart>
-		</assets>
-		<news>
-		</news>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.resistance" name="resistance Module" version="7.2.2.2" provider-name="scarecrow">
-	<requires>
-		<import addon="xbmc.python" version="2.1.0" />
-		<import addon="script.module.beautifulsoup4"/>
-		<import addon="script.module.simplejson"/>
-		<import addon="repository.scarecrow"/>
-	</requires>
-	<extension point="xbmc.python.module" library="lib" />
-	<extension point="xbmc.addon.metadata">
-		<platform>all</platform>
-		<summary lang="en">resistance</summary>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.resistance.artwork" version="2.0.0" name="resistance Artwork" provider-name="scarecrow">
-	<requires>
-		<import addon="xbmc.python" version="2.19.0"/>
-	</requires>
-	<extension point="xbmc.python.module" library="lib" />
-	<extension point="xbmc.addon.metadata">
-		<summary>Themes for the resistance Addon</summary>
-		<description></description>
-		<platform>all</platform>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.resistance.metadata" version="2.0.0" name="resistance Metadata" provider-name="scarecrow">
-	<requires>
-		<import addon="xbmc.python" version="2.19.0"/>
-	</requires>
-	<extension point="xbmc.python.module" library="lib" />
-	<extension point="xbmc.addon.metadata">
-		<summary>Metadata for the resistance Addon</summary>
-		<description>Metadata for resistance are maintained separately to make distribution of the the addon itself easier/faster.</description>
-		<platform>all</platform>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.invasion" name="[COLORorange]Invasion[/COLOR]" version="1.1" provider-name="Falcon">
-    <requires>
-        <import addon="xbmc.python" version="2.19.0" />
-        <import addon="script.module.universalscrapers" version="0.5.5" />
-        <import addon="script.module.python.koding.aio" version="0.9.6.6" />
-        <import addon="script.module.beautifulsoup" version="3.2.1" />
-        <import addon="script.module.requests" version="2.9.1" />
-        <import addon="script.module.addon.common" version="2.0.0" />
-        <import addon="script.module.xmltodict" version="0.9.0" />
-        <!--<import addon="script.module.web-pdb" version="1.0"/>-->
-        <import addon="script.module.resolveurl" />
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.service" library="service.py" start="[login|startup]" />
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">Movies</summary>
-      <summary lang="he"></summary>
-      <description lang="en"></description>
-      <description lang="he"></description>
-      <disclaimer lang="en"></disclaimer>
-      <disclaimer lang="he"></disclaimer>
-      <platform>all</platform>
-        <website></website>
-        <video_guide></video_guide>
-    </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.sg"
-       name="[COLOR white][B]SGTV[/B][/COLOR]"
-       version="1.0"
-       provider-name="SG Builds">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-	<import addon="script.module.t0mm0.common" version="2.0.0"/>
-    <import addon="script.module.beautifulsoup" version="3.2.1"/>
-    <import addon="script.module.simple.downloader" version="0.9.4"/>
-    <import addon="script.module.beautifulsoup4" />
-    <import addon="script.module.simple.downloader" version="0.9.4"/>
-    <import addon="script.module.requests" />
-    <import addon="script.module.httplib2" />
-    <import addon="script.module.youtube.dl" optional="true"/>
-    <import addon="plugin.video.youtube" version="3.0.0"/>
-    <import addon="script.module.urlresolver" optional="true"/>
-    <import addon="script.module.simplejson" /> 
-    <import addon="script.common.plugin.cache" version="2.5.2"/>
-    <import addon="script.module.metahandler" version="2.5.1"/>
-
-  </requires>
-  <extension point="xbmc.python.pluginsource" library="default.py">
-    <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">SGTV</summary>
-    <description lang="en">Auto Updates no need to update manually</description>
-    <platform>all</platform>
-  </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.illuminati" name="Closed" version="9999.9" provider-name="Closed">
-	<extension point="xbmc.addon.repository" name="Closed">
-		<info compressed="false">https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/drxbld2/repo/master/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>Durex Add-on Repository</summary>
-		<description>Kodi Repository Backup for Durex Build</description>
-		<platform>all</platform>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8"?>
-    <addon id="repository.ukodi1" name="ukodi1" version="0.0.8" provider-name="ukodi1">
-       <extension point="xbmc.addon.repository" name="ukodi1">
-       
-            <dir>      
-            <info compressed="false">http://ukodi1.com/_repo/addons.xml</info>
-            <checksum>http://ukodi1.com/_repo/addons.xml.md5</checksum>
-            <datadir zip="true">http://ukodi1.com/_repo/</datadir>
-            <hashes>false</hashes>
-            </dir>
-            
-            <dir>
-			<info compressed="false">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml</info>
-			<checksum>https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml.md5</checksum>
-			<datadir zip="true">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/</datadir>
-		</dir>
-        
-        <dir>
-            <info compressed="false">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/</datadir>
-            <hashes>false</hashes>
-        </dir>
-	
-		<dir>
-			<info compressed="false">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml</info>
-			<checksum>https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml.md5</checksum>
-			<datadir zip="true">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/</datadir>
-		</dir>
-		
-		<dir>
-            <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
-        </dir>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <summary>Welcome to the Ukodi1 Repository</summary>
-            <description></description>
-            <platform>all</platform>
-    </extension>
 </addon>
 
 </addons>

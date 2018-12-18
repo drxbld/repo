@@ -20,6 +20,6 @@ def Get():
 		shortm3u = tools.regex_from_to(m3u,'<div class="indent"><b>','</b>')
 		shortepg = tools.regex_from_to(epg,'<div class="indent"><b>','</b>')
 		xbmc.executebuiltin("Dialog.Close(busydialog)")
-		xbmcgui.Dialog().ok('Durex [COLOR red]TV[/COLOR]','[COLOR blue]M3U URL: [/COLOR]%s'%shortm3u,'','[COLOR blue]EPG URL: [/COLOR]%s'%shortepg)
+		xbmcgui.Dialog().ok('[COLOR red]TV[/COLOR]','[COLOR blue]M3U URL: [/COLOR]%s'%shortm3u,'','[COLOR blue]EPG URL: [/COLOR]%s'%shortepg)
 	else:
 		return
