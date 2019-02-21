@@ -77,12 +77,10 @@
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
         <extension point="xbmc.addon.repository" name="[COLOR red]Blamo Repo[/COLOR]">
-            <dir>
 			<info compressed="false">https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml</info>
 			<checksum>https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml.md5</checksum>
 			<datadir zip="true">https://raw.githubusercontent.com/genuinetv/repo/master/</datadir>
             <hashes>false</hashes>
-			</dir>
         </extension>
         <extension point="xbmc.addon.metadata">
             <summary>The Official Repo for Mr Blamo</summary>
@@ -109,5 +107,22 @@
 		<forum>https://gaiakodi.com/?support</forum>
 	</extension>
 </addon>
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.eggscrapers" name="EggScrapers" version="9.0.1" provider-name="Eggman">
+	<extension point="xbmc.addon.repository" name="EggScrapers">
+		<info compressed="false">https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/genuinetv/repo/master/</datadir>
+		<hashes>false</hashes>
+	</extension>	
+	<extension point="xbmc.addon.metadata">
+		<summary>EggScrapers</summary>
+		<description>EggScrapers</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+
 
 </addons>
