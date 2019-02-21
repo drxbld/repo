@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.diamondback" name="[COLOR red]Diamondback[/COLOR]" version="999.999.999.99" provider-name="Rattlehead">
+<addon id="repository.diamondback" name="[COLOR red]Diamondback[/COLOR]" version="2.19.19" provider-name="Rattlehead">
 	<extension point="xbmc.addon.repository" name="Diamondback Repository">
 		<info compressed="false">https://raw.githubusercontent.com/cdoortv/repo/master/addons.xml</info>
 		<checksum>https://raw.githubusercontent.com/cdoortv/repo/master/addons.xml.md5</checksum>

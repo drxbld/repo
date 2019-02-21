@@ -3,7 +3,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.durextv2"
        name=" "
-       version="999.999.999"
+       version="12.18.18"
        provider-name=" ">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -21,8 +21,9 @@
   </extension>
 </addon>
 
+
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.diamondback" name="[COLOR red]Diamondback[/COLOR]" version="999.999.999.99" provider-name="Rattlehead">
+<addon id="repository.diamondback" name="[COLOR red]Diamondback[/COLOR]" version="2.19.19" provider-name="Rattlehead">
 	<extension point="xbmc.addon.repository" name="Diamondback Repository">
 		<info compressed="false">https://raw.githubusercontent.com/cdoortv/repo/master/addons.xml</info>
 		<checksum>https://raw.githubusercontent.com/cdoortv/repo/master/addons.xml.md5</checksum>
@@ -30,52 +31,6 @@
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">Diamondback Repo</summary>
-		<description lang="en"></description>
-		<genre></genre>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8"?>
-    <addon id="repository.cazlo" name="Cazlo Repository" version="999.999.999" provider-name="Cazlo">
-        <requires>
-            <import addon="xbmc.addon" version="12.0.0"/>
-        </requires>
-        <extension point="xbmc.addon.repository" name="Cazlo Repository">
-            <info compressed="false">https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/drxbld2/repo/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/drxbld2/repo/master/</datadir>
-            <hashes>false</hashes>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <summary>Cazlo Kodi Repository</summary>
-            <description>This repository contains some of the highest quality addons for Kodi. http://cazlo.com/repo </description>
-            <platform>all</platform>
-    </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.pulse" name="Pulse Repo" version="9.0.1" provider-name="Pulse">
-	<extension point="xbmc.addon.repository" name="Pulse Repository">
-		<info compressed="false">https://raw.githubusercontent.com/drxbld/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/drxbld/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/drxbld/repo/master/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary lang="en"></summary>
-		<description lang="en"></description>
-		<genre></genre>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8"?>
-<addon id="repository.blamo" name="[COLOR red]Blamo Repo[/COLOR]" version="45.9.99" provider-name="Mr Blamo">
-	<extension point="xbmc.addon.repository" name="[COLOR red]Blamo Repo[/COLOR]">
-		<info compressed="false">https://raw.githubusercontent.com/steadfasttv/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/steadfasttv/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/steadfasttv/repo/master/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary lang="en"></summary>
 		<description lang="en"></description>
 		<genre></genre>
 	</extension>
@@ -92,21 +47,6 @@
 		<summary lang="en"></summary>
 		<description lang="en"></description>
 		<genre></genre>
-	</extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.eggscrapers" name="EggScrapers" version="9.0.1" provider-name="Eggman">
-	<extension point="xbmc.addon.repository" name="EggScrapers">
-		<info compressed="false">https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/genuinetv/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/genuinetv/repo/master/</datadir>
-		<hashes>false</hashes>
-	</extension>	
-	<extension point="xbmc.addon.metadata">
-		<summary>EggScrapers</summary>
-		<description>EggScrapers</description>
-		<platform>all</platform>
 	</extension>
 </addon>
 
